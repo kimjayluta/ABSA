@@ -1,0 +1,50 @@
+
+body {
+    margin: 0;
+    overflow-x: hidden;
+    background: #701112;
+}
+
+.v-header {
+    height: 100vh;
+    display: flex;
+    color: #fff;
+}
+
+.header-content {
+    color: #000;
+    width: 100%;
+}
+
+.header-content .logo{
+    height: 160px;
+}
+
+.card {
+    top: 10%;
+    margin: auto;
+    width: 25rem;
+}
+
+.card-header {
+    background-color: transparent;
+}
+
+.login_btn {
+    background: #051b6a;
+    border: 1px solid #1d2da9;
+    color: #fff;
+    cursor: pointer;
+}
+
+.login_btn:hover {
+    background: #082aa9;
+}
+
+@media(max-width: 800px) {
+
+}
+
+
+
+
