@@ -1,6 +1,3 @@
-<?php
-include("../includes/db.php");
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,10 +10,8 @@ include("../includes/db.php");
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="../css/bootstrap.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../css/style3.css">
+    <link rel="stylesheet" href="../css/style2.css">
     <!-- Scrollbar Custom CSS -->
-    <link rel="stylesheet" href="../css/fonts/navfont.css">
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/jquery.mCustomScrollbar.min.css">
     <!-- Data table -->
     <link rel="stylesheet" type="text/css" href="../css/datatables.css"/>
@@ -29,7 +24,7 @@ include("../includes/db.php");
 <body>
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand" href="#" ></a>
+    <a class="navbar-brand" href="#">Navbar</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -39,7 +34,7 @@ include("../includes/db.php");
             <li class="nav-item active">
                 <a class="nav-link" href="#">Dashboard <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="#">Users</a>
             </li>
         </ul>
@@ -50,7 +45,7 @@ include("../includes/db.php");
 <div class="container mt-5">
     <div class="row mb-2">
         <div class="col">
-            <h3>Tournament List</h3>
+            <h3>Player List</h3>
         </div>
         <div class="col">
             <a href="#" class="btn btn-outline-primary"  style="float:right" data-toggle="modal" data-target="#add">
@@ -58,68 +53,35 @@ include("../includes/db.php");
             </a>
         </div>
     </div>
-     <?php
-                if(isset($_GET["error"])){
-                    echo '<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                             <strong>Error</strong> Username or Password is in correct!
-                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                             <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>';
-                }
-                if(isset($_GET["success"])){
-                    echo '<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-                             <strong>Success</strong> Data Successfully Added!
-                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                             <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>';
-                }
-            ?>
-
     <table class="table table-striped text-center">
         <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">Commissioner</th>
-                <th scope="col">Referee One</th>
-                <th scope="col">Referee Two</th>
-                <th scope="col">Referee Three</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
-            <?php
-                $sql = "SELECT * FROM tournament";
-                $result = mysqli_query($conn, $sql);
-                $count = 1;
-                while ($row = mysqli_fetch_array($result)){
-                    echo '<tr>
-                            <th scope="row">'.$count++.'</th>
-                            <td>'.$row["name"].'</td>
-                            <td>'.$row["comissioner"].'</td>
-                            <td>'.$row["ref_one"].'</td>
-                            <td>'.$row["ref_two"].'</td>
-                            <td>'.$row["ref_three"].'</td>
-                            <td>
-                                <button class="btn btn-outline-success" data-toggle="modal" data-target="#view-info">
-                                    <i class="fas fa-info-circle fa-lg"></i>
-                                </button>
-                                <button class="btn btn-outline-info" data-toggle="modal" data-target="#add">
-                                    <i class="fas fa-pen-alt"></i>
-                                </button>
-                                <button class="btn btn-outline-danger" data-toggle="modal" data-target="#delete">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                                <a href="team.php" class="btn btn-outline-warning">
-                                    <i class="fas fa-eye fa-lg"></i>
-                                </a>
-                            </td>
-                        </tr>';
-                }
-            ?>
-
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>
+                    <button class="btn btn-outline-success" data-toggle="modal" data-target="#view-info">
+                        <i class="fas fa-info-circle fa-lg"></i>
+                    </button>
+                    <button class="btn btn-outline-info" data-toggle="modal" data-target="#add">
+                        <i class="fas fa-pen-alt"></i>
+                    </button>
+                    <button class="btn btn-outline-danger" data-toggle="modal" data-target="#delete">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                    <a href="team.php" class="btn btn-outline-warning">
+                        <i class="fas fa-eye fa-lg"></i>
+                    </a>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>
@@ -166,35 +128,20 @@ include("../includes/db.php");
                 </button>
             </div>
             <div class="modal-body">
-                <form action="functions/dashboard_function.php" method="post">
+                <form>
                     <div class="form-group">
                         <label for="tournament-name">Name</label>
-                        <input type="text" class="form-control" id="tournament-name" placeholder="Enter tournament name" name="name" required="required">
+                        <input type="email" class="form-control" id="tournament-name" placeholder="Enter tournament name">
                     </div>
                     <div class="form-group">
                         <label for="commissioner">Commissioner</label>
-                        <input type="text" class="form-control" id="commissioner" placeholder="Enter commissioner" name="comm" required="required">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="commissioner">Referee</label>
-                        <input type="text" class="form-control" id="commissioner" placeholder="Enter Referee name" name="refone" required="required">
-                    </div>
-                    <div class="form-group">
-                        <label for="commissioner">Referee</label>
-                        <input type="text" class="form-control" id="commissioner" placeholder="Enter Referee name" name="reftwo" required="required">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="commissioner">Referee</label>
-                        <input type="text" class="form-control" id="commissioner" placeholder="Enter Referee name" name="refthree" required="required">
-                    </div>
- 
-                    <div class="form-group">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" style="float: right" name="add">Save</button>
+                        <input type="text" class="form-control" id="commissioner" placeholder="Enter commissioner">
                     </div>
                 </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </div>
     </div>
@@ -211,13 +158,11 @@ include("../includes/db.php");
                 </button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to remove this tournament permanently from the database ? </p>
+                <p>Are you sure to remove this tournament permanently from the database ? </p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">
-                    <form action='delete_function.php' method="post">Yes</form>
-                </button>
+                <button type="submit" class="btn btn-primary">Add</button>
             </div>
         </div>
     </div>
