@@ -1,6 +1,6 @@
 <?php 
+$tourID = $_GET["tourID"];
 include("../includes/db.php");
-$tourID = 3;
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +54,7 @@ $tourID = 3;
 <div class="container mt-5">
     <div class="row mb-2">
         <div class="col">
-            <h3>User List</h3>
+            <h3>Schedule List</h3>
         </div>
         <div class="col">
             <a href="#" class="btn btn-outline-primary"  style="float:right" data-toggle="modal" data-target="#add">
@@ -66,23 +66,27 @@ $tourID = 3;
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Username</th>
-                <th scope="col">Password</th>
-                <th scope="col">User Type</th>
-                <th scope="col">Action</th>
+                <th scope="col">Date</th>
+                <th scope="col">Time</th>
+                <th scope="col">Home</th>
+                <th scope="col">Away</th>
+                <th scope="col">Game Type</th>
             </tr>
         </thead>
         <tbody>
              <?php
-                $sql = "SELECT * FROM user";
+                $sql = "SELECT schedule.* , teams.name FROM schedule,teams WHERE teams.id=schedule.teamone_id AND teams.id=schedule.teamtwo_id";
+;
                 $result = mysqli_query($conn, $sql);
                 $count = 1;
                 while ($row = mysqli_fetch_array($result)){
                     echo '<tr>
                             <th scope="row">'.$count++.'</th>
-                            <td>'.$row["usn"].'</td>
-                            <td>'.$row["pass"].'</td>
-                            <td>'.$row["user_type"].'</td>
+                            <td>'.$row["date"].'</td>
+                            <td>'.$row["time"].'</td>
+                            <td>'.$row["teamone_id"].'</td>
+                            <td>'.$row["teamtwo_id"].'</td>
+                            <td>'.$row["game_type"].'</td>
                             <td>
                                 <button class="btn btn-outline-success" data-toggle="modal" data-target="#view-info">
                                     <i class="fas fa-info-circle fa-lg"></i>
@@ -93,7 +97,7 @@ $tourID = 3;
                                 <button class="btn btn-outline-danger" data-toggle="modal" data-target="#delete">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
-                                <a href="user.php?tourID='.$tourID.'" class="btn btn-outline-warning">
+                                <a href="player.php?tourID='.$row["tour_id"].'&teamID='.$row["id"].'" class="btn btn-outline-warning">
                                     <i class="fas fa-eye fa-lg"></i>
                                 </a>
                             </td>
@@ -110,12 +114,21 @@ $tourID = 3;
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add User: </h5>
+                <h5 class="modal-title">Add Tournament: </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-           
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="tournament-name">Name</label>
+                        <input type="email" class="form-control" id="tournament-name" placeholder="Enter tournament name">
+                    </div>
+                    <div class="form-group">
+                        <label for="commissioner">Commissioner</label>
+                        <input type="text" class="form-control" id="commissioner" placeholder="Enter commissioner">
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -131,33 +144,66 @@ $tourID = 3;
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add User: </h5>
+                <h5 class="modal-title">Add Schedule: </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-             <div class="modal-body">
-                <form action="user_functions.php" method="post">
+            <div class="modal-body">
+                <form action="functions/team_function.php" method="post">
+                    <input type="hidden" name="tourID" value="<?php echo $tourID?>">
                     <div class="form-group">
-                        <label for="usn">Username</label>
-                        <input type="text" class="form-control" id="usn" name="usn"placeholder="Enter Username">
+                        <label for="date">Date</label>
+                        <input type="date" class="form-control" name="date" id="date">
                     </div>
                     <div class="form-group">
-                        <label for="pass">Password</label>
-                        <input type="text" class="form-control" id="pass" name="pass" placeholder="Enter Password">
+                        <label for="time">Time</label>
+                        <input type="time" class="form-control" id="time" name="time">
+                    </div>
+                     <div class="form-group">
+                        <label for="home">Home</label><br>
+                        <select name="home">
+                            
+                           <?php
+                                $sql = "SELECT * FROM teams WHERE tour_id=$tourID";
+                                $result = mysqli_query($conn, $sql);
+                                $count = 1;
+                               
+                                while ($row = mysqli_fetch_array($result))
+                                    {                                       
+                                        echo '<option value="'.$row["name"].'">'.$row["name"].'</option>';
+                                    }
+                           ?>
+
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="user_type">User Type</label><br>
-                        <select name="user_type">
-                            <option value="0">Home Main</option>
-                            <option value="1">Away Main</option>
-                            <option value="2">Home Extra</option>
-                            <option value="3">Away Extra</option>
+                        <label for="home">Away</label><br>
+                        <select name="home">
+                            
+                           <?php
+                                $sql = "SELECT * FROM teams WHERE tour_id=$tourID";
+                                $result = mysqli_query($conn, $sql);
+                                $count = 1;
+                               
+                                while ($row = mysqli_fetch_array($result))
+                                    {                                       
+                                        echo '<option value="'.$row["id"].'">'.$row["name"].'</option>';
+                                    }
+                           ?>
+
+                        </select>
+                    </div>
+                     <div class="form-group">
+                        <label for="game_type">Game Type</label><br>
+                        <select name="game_type">
+                            <option value="elimination">Elimination</option>
+                            <option value="finals">Finals</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" style="float: right;" class="btn btn-primary"  name="add">Add User</button>
+                        <button type="submit" style="float: right;" class="btn btn-primary"  name="add">Add Schedule</button>
                     </div>
                 </form>
             </div>

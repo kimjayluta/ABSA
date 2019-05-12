@@ -112,7 +112,7 @@ include("../includes/db.php");
                                 <button class="btn btn-outline-danger" data-toggle="modal" data-target="#delete">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
-                                <a href="team.php" class="btn btn-outline-warning">
+                                <a href="team.php?tourID='.$row["id"].'" class="btn btn-outline-warning">
                                     <i class="fas fa-eye fa-lg"></i>
                                 </a>
                             </td>

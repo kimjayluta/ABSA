@@ -9,7 +9,7 @@ if (isset($_POST["add"])) {
 	$tour_refthree = $_POST["refthree"];
 	
 	$sql = "INSERT INTO `tournament`(`name`, `comissioner`, `ref_one`, `ref_two`, `ref_three`) VALUES ('$tour_name', '$tour_comm', '$tour_refone', '$tour_reftwo', '$tour_refthree');";
-	echo $sql;
+	
 	$result = mysqli_query($conn,$sql);
 
 	if ($result == true) {

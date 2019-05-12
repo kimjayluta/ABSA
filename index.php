@@ -25,7 +25,7 @@
     <div class="card mx-auto my-5" style="width: 18rem;">
         <div class="card-body">
             <img src="img/IMG_20190509_114203.jpg" class="img-fluid" alt="Responsive image">
-           
+           <!-- login form -->
             <form action="includes/login_function.php" method="post">
                 <div class="form-group">
                     <label for="exampleInputEmail1">User Name:</label>

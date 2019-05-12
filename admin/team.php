@@ -1,3 +1,8 @@
+<?php 
+$tourID = $_GET["tourID"];
+include("../includes/db.php");
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -67,25 +72,32 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>
-                    <button class="btn btn-outline-success" data-toggle="modal" data-target="#view-info">
-                        <i class="fas fa-info-circle fa-lg"></i>
-                    </button>
-                    <button class="btn btn-outline-info" data-toggle="modal" data-target="#add">
-                        <i class="fas fa-pen-alt"></i>
-                    </button>
-                    <button class="btn btn-outline-danger" data-toggle="modal" data-target="#delete">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                    <a href="team.php" class="btn btn-outline-warning">
-                        <i class="fas fa-eye fa-lg"></i>
-                    </a>
-                </td>
-            </tr>
+             <?php
+                $sql = "SELECT * FROM teams";
+                $result = mysqli_query($conn, $sql);
+                $count = 1;
+                while ($row = mysqli_fetch_array($result)){
+                    echo '<tr>
+                            <th scope="row">'.$count++.'</th>
+                            <td>'.$row["name"].'</td>
+                            <td>'.$row["coach"].'</td>
+                            <td>
+                                <button class="btn btn-outline-success" data-toggle="modal" data-target="#view-info">
+                                    <i class="fas fa-info-circle fa-lg"></i>
+                                </button>
+                                <button class="btn btn-outline-info" data-toggle="modal" data-target="#add">
+                                    <i class="fas fa-pen-alt"></i>
+                                </button>
+                                <button class="btn btn-outline-danger" data-toggle="modal" data-target="#delete">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                                <a href="player.php?tourID='.$row["tour_id"].'&teamID='.$row["id"].'" class="btn btn-outline-warning">
+                                    <i class="fas fa-eye fa-lg"></i>
+                                </a>
+                            </td>
+                        </tr>';
+                }
+            ?>
         </tbody>
     </table>
 </div>
@@ -132,20 +144,22 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form action="functions/team_function.php" method="post">
+                    <input type="hidden" name="tourID" value="<?php echo $tourID?>">
+                    <input type="hidden" name="teamID" value="<?php echo $teamID?>">
                     <div class="form-group">
-                        <label for="tournament-name">Name</label>
-                        <input type="email" class="form-control" id="tournament-name" placeholder="Enter tournament name">
+                        <label for="team_name">Name</label>
+                        <input type="text" class="form-control" name="team_name" id="team_name" placeholder="Enter Team Name">
                     </div>
                     <div class="form-group">
-                        <label for="commissioner">Commissioner</label>
-                        <input type="text" class="form-control" id="commissioner" placeholder="Enter commissioner">
+                        <label for="coach">Coach</label>
+                        <input type="text" class="form-control" id="coach" name="coach" placeholder="Enter Coach Name">
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" style="float: right;" class="btn btn-primary"  name="add">Add Team</button>
                     </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </div>
     </div>

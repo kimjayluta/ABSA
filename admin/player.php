@@ -1,6 +1,7 @@
 <?php 
+$tourID = $_GET["tourID"];
+$teamID = $_GET["teamID"];
 include("../includes/db.php");
-$tourID = 3;
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +55,7 @@ $tourID = 3;
 <div class="container mt-5">
     <div class="row mb-2">
         <div class="col">
-            <h3>User List</h3>
+            <h3>Player List</h3>
         </div>
         <div class="col">
             <a href="#" class="btn btn-outline-primary"  style="float:right" data-toggle="modal" data-target="#add">
@@ -66,23 +67,25 @@ $tourID = 3;
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Username</th>
-                <th scope="col">Password</th>
-                <th scope="col">User Type</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Position</th>
+                <th scope="col">Jersey Number</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
              <?php
-                $sql = "SELECT * FROM user";
+                $sql = "SELECT * FROM players";
                 $result = mysqli_query($conn, $sql);
                 $count = 1;
                 while ($row = mysqli_fetch_array($result)){
                     echo '<tr>
                             <th scope="row">'.$count++.'</th>
-                            <td>'.$row["usn"].'</td>
-                            <td>'.$row["pass"].'</td>
-                            <td>'.$row["user_type"].'</td>
+                            <td>'.$row["first_name"].'</td>
+                            <td>'.$row["last_name"].'</td>
+                            <td>'.$row["position"].'</td>
+                            <td>'.$row["jersey_num"].'</td>
                             <td>
                                 <button class="btn btn-outline-success" data-toggle="modal" data-target="#view-info">
                                     <i class="fas fa-info-circle fa-lg"></i>
@@ -93,7 +96,7 @@ $tourID = 3;
                                 <button class="btn btn-outline-danger" data-toggle="modal" data-target="#delete">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
-                                <a href="user.php?tourID='.$tourID.'" class="btn btn-outline-warning">
+                                <a href="player.php?tourID='.$row["id"].'" class="btn btn-outline-warning">
                                     <i class="fas fa-eye fa-lg"></i>
                                 </a>
                             </td>
@@ -110,12 +113,21 @@ $tourID = 3;
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add User: </h5>
+                <h5 class="modal-title">Add Tournament: </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-           
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="tournament-name">Name</label>
+                        <input type="email" class="form-control" id="tournament-name" placeholder="Enter tournament name">
+                    </div>
+                    <div class="form-group">
+                        <label for="commissioner">Commissioner</label>
+                        <input type="text" class="form-control" id="commissioner" placeholder="Enter commissioner">
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -131,40 +143,54 @@ $tourID = 3;
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add User: </h5>
+                <h5 class="modal-title">Add Player: </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-             <div class="modal-body">
-                <form action="user_functions.php" method="post">
+            <div class="modal-body">
+                <form action="functions/player_function.php" method="post">
+                    <input type="hidden" name="tourID" value="<?php echo $tourID?>">
+                    <input type="hidden" name="teamID" value="<?php echo $teamID?>">
                     <div class="form-group">
-                        <label for="usn">Username</label>
-                        <input type="text" class="form-control" id="usn" name="usn"placeholder="Enter Username">
+                        <label for="first_name">First Name</label>
+                        <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Enter First Name">
                     </div>
                     <div class="form-group">
-                        <label for="pass">Password</label>
-                        <input type="text" class="form-control" id="pass" name="pass" placeholder="Enter Password">
+                        <label for="last_name">Last Name</label>
+                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter Last Name">
                     </div>
                     <div class="form-group">
-                        <label for="user_type">User Type</label><br>
-                        <select name="user_type">
-                            <option value="0">Home Main</option>
-                            <option value="1">Away Main</option>
-                            <option value="2">Home Extra</option>
-                            <option value="3">Away Extra</option>
+                        <label for="position">Position</label><br>
+                        <select name="position">
+                            <option value="pg">Point Guard</option>
+                            <option value="sg">Shooting Guard</option>
+                            <option value="pf">Power Forward</option>
+                            <option value="sf">Small Forward</option>
+                            <option value="c">Center</option>
                         </select>
                     </div>
                     <div class="form-group">
+                        <label for="jersey_number">Jersey Number</label>
+                        <input type="number" class="form-control" id="jersey_number" name="jersey_number" placeholder="XX">
+                    </div>
+                     <div class="form-group">
+                        <label for="height">Height</label>
+                        <input type="number" class="form-control" id="height" name="height" placeholder="Centimeter">
+                    </div>
+                    <div class="form-group">
+                        <label for="weight">Weight</label>
+                        <input type="number" class="form-control" id="weight" name="weight" placeholder="Kilos">
+                    </div>
+                    <div class="form-group">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" style="float: right;" class="btn btn-primary"  name="add">Add User</button>
+                        <button type="submit" style="float: right;" class="btn btn-primary"  name="add">Add Player</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 
 <!-- Delete -->
 <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
