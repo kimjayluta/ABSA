@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Table, Menu, Segment } from 'semantic-ui-react'
 
 class ScheduleList extends Component {
 
@@ -28,11 +29,73 @@ class ScheduleList extends Component {
 	}
 
 	render() {
-		if (this.state.isLoading){
+		/*if (this.state.isLoading){
 			return <b>Loading Please wait...</b>
 		}
 
-		return <b>There is some found {this.state.scheduleList.length}</b>
+		return <b>There is some found {this.state.scheduleList.length}</b>*/
+		return (
+			<>
+				<div style={{"marginBottom": "20px"}}>
+					<Menu pointing secondary>
+						<div className="ui container">
+							<Menu.Item name='schedules' active={true}/>
+							<Menu.Menu position='right'>
+								<Menu.Item
+									name='logout'
+									active={false}
+									onClick={this.handleItemClick}
+								/>
+							</Menu.Menu>
+						</div>
+					</Menu>
+				</div>
+
+				<div className="ui container">
+
+					<Table singleLine>
+						<Table.Header>
+							<Table.Row>
+								<Table.HeaderCell>Id</Table.HeaderCell>
+								<Table.HeaderCell>Home</Table.HeaderCell>
+								<Table.HeaderCell>Aways</Table.HeaderCell>
+								<Table.HeaderCell>Game Type</Table.HeaderCell>
+								<Table.HeaderCell>Date</Table.HeaderCell>
+								<Table.HeaderCell>Action</Table.HeaderCell>
+							</Table.Row>
+						</Table.Header>
+
+						<Table.Body>
+							<Table.Row>
+								<Table.Cell>John Lilki</Table.Cell>
+								<Table.Cell>September 14, 2013</Table.Cell>
+								<Table.Cell>jhlilk22@yahoo.com</Table.Cell>
+								<Table.Cell>No</Table.Cell>
+								<Table.Cell>No</Table.Cell>
+								<Table.Cell>No</Table.Cell>
+							</Table.Row>
+							<Table.Row>
+								<Table.Cell>Jamie Harington</Table.Cell>
+								<Table.Cell>January 11, 2014</Table.Cell>
+								<Table.Cell>jamieharingonton@yahoo.com</Table.Cell>
+								<Table.Cell>jamieharingonton@yahoo.com</Table.Cell>
+								<Table.Cell>jamieharingonton@yahoo.com</Table.Cell>
+								<Table.Cell>Yes</Table.Cell>
+							</Table.Row>
+							<Table.Row>
+								<Table.Cell>Jill Lewis</Table.Cell>
+								<Table.Cell>May 11, 2014</Table.Cell>
+								<Table.Cell>jilsewris22@yahoo.com</Table.Cell>
+								<Table.Cell>jilsewris22@yahoo.com</Table.Cell>
+								<Table.Cell>jilsewris22@yahoo.com</Table.Cell>
+								<Table.Cell>Yes</Table.Cell>
+							</Table.Row>
+						</Table.Body>
+					</Table>
+				</div>
+			</>
+
+		)
 	}
 }
 
