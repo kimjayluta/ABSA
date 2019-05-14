@@ -1,5 +1,6 @@
 <?php
 
+header('Access-Control-Allow-Origin: *');	
 include "../../includes/db.php";
 
 $sql = "SELECT 	s.id AS id, 

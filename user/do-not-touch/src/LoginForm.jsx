@@ -29,7 +29,7 @@ class LoginForm extends Component {
 			}).then(response => response.json())
 			.then((jsondata) => {
 				if (jsondata.status === "found"){
-					localStorage.setItem("account", JSON.stringify(this.state));
+					localStorage.setItem("account", JSON.stringify({username, password}));
 
 					this.setState({logged: true})
 				}
