@@ -1,4 +1,6 @@
 <?php
+
+header('Access-Control-Allow-Origin: *');	
 include "../../includes/db.php";
 
 @$usn = $_POST["usn"];
