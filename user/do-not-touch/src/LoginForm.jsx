@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import ScheduleList from "./ScheduleList";
 
 
 class LoginForm extends Component {
@@ -7,7 +8,8 @@ class LoginForm extends Component {
 		super(props);
 		this.state = {
 			username: "",
-			password: ""
+			password: "",
+			logged: false
 		};
 
 		this.handleChangeUsername = this.handleChangeUsername.bind(this);
@@ -25,7 +27,13 @@ class LoginForm extends Component {
 				body: formData,
 				method: "post"
 			}).then(response => response.json())
-			.then(jsondata => console.log(jsondata));
+			.then((jsondata) => {
+				if (jsondata.status === "found"){
+					localStorage.setItem("account", JSON.stringify(this.state));
+
+					this.setState({logged: true})
+				}
+			});
 	}
 
 	handleChangeUsername(e) {
@@ -41,6 +49,15 @@ class LoginForm extends Component {
 	}
 
 	render() {
+		// Every time it renders check for login credentials
+		if (localStorage.getItem("account")){
+			this.tryLogin(JSON.parse(localStorage.getItem("account")));
+		}
+
+		if (this.state.logged === true){
+			return <ScheduleList />
+		}
+
 		return (
 			<div className='login-form'>
 				<style>{`
@@ -56,14 +73,14 @@ class LoginForm extends Component {
 						<Segment>
 							<Image src={require("./img/IMG_20190509_114203.jpg")}/>
 							<Form size='large' onSubmit={this.handleSubmit}>
-								<Form.Input fluid icon='user' iconPosition='left' onKeyUp={this.handleChangeUsername} placeholder='Username'/>
+								<Form.Input fluid icon='user' iconPosition='left' onChange={this.handleChangeUsername} placeholder='Username'/>
 								<Form.Input
 									fluid
 									icon='lock'
 									iconPosition='left'
 									placeholder='Password'
 									type='password'
-									onKeyUp={this.handleChangePassword}
+									onChange={this.handleChangePassword}
 								/>
 
 								<Button color='blue' fluid size='small'>Login </Button>
