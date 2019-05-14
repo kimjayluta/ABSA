@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Table, Menu, Segment } from 'semantic-ui-react'
+import {Table, Menu, Segment, Button} from 'semantic-ui-react'
 
 class ScheduleList extends Component {
 
@@ -19,7 +19,7 @@ class ScheduleList extends Component {
 					this.setState({
 						isLoading: false,
 						scheduleList: jsondata
-					})
+					});
 				}else{
 					this.setState({
 						isLoading: false
@@ -34,6 +34,39 @@ class ScheduleList extends Component {
 		}
 
 		return <b>There is some found {this.state.scheduleList.length}</b>*/
+
+		let rowData = (
+			<Table.Row>
+				<Table.Cell colSpan={6} className={"center aligned"}>Loading Data, Please wait...</Table.Cell>
+			</Table.Row>
+		);
+
+
+		if (!this.state.isLoading){
+			if (this.state.scheduleList.length < 1){
+				rowData = (
+					<Table.Row>
+						<Table.Cell colSpan={6} className={"center aligned"}>Sorry no schedule found</Table.Cell>
+					</Table.Row>
+				)
+			}else{
+				rowData = this.state.scheduleList.map(function (value, index, array) {
+					return (
+						<Table.Row key={value.id}>
+							<Table.Cell collapsing>{value.id}</Table.Cell>
+							<Table.Cell>{value.team_one}</Table.Cell>
+							<Table.Cell>{value.team_two}</Table.Cell>
+							<Table.Cell>{value.game_type}</Table.Cell>
+							<Table.Cell>{value.date + " " + value.time}</Table.Cell>
+							<Table.Cell collapsing>
+								<Button content='Open' icon='right arrow' labelPosition='right' color={"blue"} />
+							</Table.Cell>
+						</Table.Row>
+					)
+				})
+			}
+		}
+
 		return (
 			<>
 				<div style={{"marginBottom": "20px"}}>
@@ -52,7 +85,6 @@ class ScheduleList extends Component {
 				</div>
 
 				<div className="ui container">
-
 					<Table singleLine>
 						<Table.Header>
 							<Table.Row>
@@ -64,33 +96,7 @@ class ScheduleList extends Component {
 								<Table.HeaderCell>Action</Table.HeaderCell>
 							</Table.Row>
 						</Table.Header>
-
-						<Table.Body>
-							<Table.Row>
-								<Table.Cell>John Lilki</Table.Cell>
-								<Table.Cell>September 14, 2013</Table.Cell>
-								<Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-								<Table.Cell>No</Table.Cell>
-								<Table.Cell>No</Table.Cell>
-								<Table.Cell>No</Table.Cell>
-							</Table.Row>
-							<Table.Row>
-								<Table.Cell>Jamie Harington</Table.Cell>
-								<Table.Cell>January 11, 2014</Table.Cell>
-								<Table.Cell>jamieharingonton@yahoo.com</Table.Cell>
-								<Table.Cell>jamieharingonton@yahoo.com</Table.Cell>
-								<Table.Cell>jamieharingonton@yahoo.com</Table.Cell>
-								<Table.Cell>Yes</Table.Cell>
-							</Table.Row>
-							<Table.Row>
-								<Table.Cell>Jill Lewis</Table.Cell>
-								<Table.Cell>May 11, 2014</Table.Cell>
-								<Table.Cell>jilsewris22@yahoo.com</Table.Cell>
-								<Table.Cell>jilsewris22@yahoo.com</Table.Cell>
-								<Table.Cell>jilsewris22@yahoo.com</Table.Cell>
-								<Table.Cell>Yes</Table.Cell>
-							</Table.Row>
-						</Table.Body>
+						<Table.Body>{rowData}</Table.Body>
 					</Table>
 				</div>
 			</>
