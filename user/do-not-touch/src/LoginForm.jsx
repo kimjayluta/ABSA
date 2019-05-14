@@ -50,7 +50,7 @@ class LoginForm extends Component {
 
 	render() {
 		// Every time it renders check for login credentials
-		if (localStorage.getItem("account")){
+		if (this.state.logged === false && localStorage.getItem("account")){
 			this.tryLogin(JSON.parse(localStorage.getItem("account")));
 		}
 
