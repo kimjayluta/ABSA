@@ -1,4 +1,4 @@
-<?php 
+<?php
 $tourID = $_GET["tourID"];
 include("../includes/db.php");
 ?>
@@ -31,7 +31,7 @@ include("../includes/db.php");
 <body>
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand" href="#"></a>
+    <a class="navbar-brand" href="#" ></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -39,30 +39,46 @@ include("../includes/db.php");
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Dashboard<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="dashboard.php">Dashboard <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Users</a>
+            <li class="nav-item active">
+                <a class="nav-link" href="account_settings.php">Account Settings</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">LOGOUT</button>
-        </form>
+        <a href="../includes/logout_function.php?logout" class="btn btn-outline-primary">LOGOUT</a>
     </div>
 </nav>
-
-<div class="container mt-5">
+<!-- Tournament name -->
+<div>
+    <h2 class="text-center mt-4" id="tournament-name" data-id="<?php echo $tourID?>"></h2>
+</div>
+<!-- Table -->
+<div class="container mt-2">
+    <ul class="nav nav-tabs mb-2">
+        <li class="nav-item">
+            <a class="nav-link" href="dashboard.php">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="team.php?tourID=<?php echo $tourID?>">Teams</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="schedule.php?tourID=<?php echo $tourID?>">Schedule</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="user.php?tourID=<?php echo $tourID?>">User</a>
+        </li>
+    </ul>
     <div class="row mb-2">
         <div class="col">
             <h3>Schedule List</h3>
         </div>
         <div class="col">
-            <a href="#" class="btn btn-outline-primary"  style="float:right" data-toggle="modal" data-target="#add">
+            <a href="#" class="btn btn-outline-primary"  style="float:right" data-toggle="modal" data-target="#add" id="add-btn">
                 <i class="fas fa-plus"></i> Add
             </a>
         </div>
     </div>
-    <table class="table table-striped">
+    <table class="table table-striped text-center" id="sched-table">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -71,30 +87,40 @@ include("../includes/db.php");
                 <th scope="col">Home</th>
                 <th scope="col">Away</th>
                 <th scope="col">Game Type</th>
+                <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
              <?php
-                $sql = "SELECT schedule.* , teams.name FROM schedule,teams WHERE teams.id=schedule.teamone_id AND teams.id=schedule.teamtwo_id";
-;
+                $sql = "SELECT * FROM schedule WHERE tour_id = '$tourID'";
+
                 $result = mysqli_query($conn, $sql);
                 $count = 1;
                 while ($row = mysqli_fetch_array($result)){
+
+                    $teamOneID = $row["teamone_id"];
+                    $teamTwoID = $row["teamtwo_id"];
+                    $sql = "SELECT name FROM teams WHERE id = $teamOneID OR id = $teamTwoID";
+                    $res = mysqli_query($conn, $sql);
+                    $data[] = mysqli_fetch_assoc($res);
+                    $data[] = mysqli_fetch_assoc($res);
+
                     echo '<tr>
                             <th scope="row">'.$count++.'</th>
                             <td>'.$row["date"].'</td>
                             <td>'.$row["time"].'</td>
-                            <td>'.$row["teamone_id"].'</td>
-                            <td>'.$row["teamtwo_id"].'</td>
+                            <td>'.$data[0]["name"].'</td>
+                            <td>'.$data[1]["name"].'</td>
                             <td>'.$row["game_type"].'</td>
                             <td>
                                 <button class="btn btn-outline-success" data-toggle="modal" data-target="#view-info">
                                     <i class="fas fa-info-circle fa-lg"></i>
                                 </button>
-                                <button class="btn btn-outline-info" data-toggle="modal" data-target="#add">
+                                <button class="btn btn-outline-info edit-btn" data-toggle="modal" data-target="#add" data-id="'.$row["id"].'">
                                     <i class="fas fa-pen-alt"></i>
                                 </button>
-                                <button class="btn btn-outline-danger" data-toggle="modal" data-target="#delete">
+                                <button class="btn btn-outline-danger delete-btn" data-toggle="modal" data-target="#delete"
+                                data-id="'.$row["id"].'">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                                 <a href="player.php?tourID='.$row["tour_id"].'&teamID='.$row["id"].'" class="btn btn-outline-warning">
@@ -109,36 +135,6 @@ include("../includes/db.php");
 </div>
 
 <!--------------------------------------------------------- Modals --------------------------------------------------------->
-<!-- View Info -->
-<div class="modal fade" id="view-info" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add Tournament: </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="tournament-name">Name</label>
-                        <input type="email" class="form-control" id="tournament-name" placeholder="Enter tournament name">
-                    </div>
-                    <div class="form-group">
-                        <label for="commissioner">Commissioner</label>
-                        <input type="text" class="form-control" id="commissioner" placeholder="Enter commissioner">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Add</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Add / Edit -->
 <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -150,8 +146,9 @@ include("../includes/db.php");
                 </button>
             </div>
             <div class="modal-body">
-                <form action="functions/team_function.php" method="post">
-                    <input type="hidden" name="tourID" value="<?php echo $tourID?>">
+                <form action="functions/schedule_function.php" method="post">
+                    <input type="hidden" name="tourID" id="tourID" value="<?php echo $tourID;?>">
+                    <input type="hidden" name="sched_id" id="sched_id">
                     <div class="form-group">
                         <label for="date">Date</label>
                         <input type="date" class="form-control" name="date" id="date">
@@ -162,48 +159,39 @@ include("../includes/db.php");
                     </div>
                      <div class="form-group">
                         <label for="home">Home</label><br>
-                        <select name="home">
-                            
+                        <select name="home" class="form-control" id="home">
                            <?php
-                                $sql = "SELECT * FROM teams WHERE tour_id=$tourID";
+                                $sql = "SELECT * FROM teams WHERE tour_id = $tourID";
                                 $result = mysqli_query($conn, $sql);
-                                $count = 1;
-                               
-                                while ($row = mysqli_fetch_array($result))
-                                    {                                       
-                                        echo '<option value="'.$row["name"].'">'.$row["name"].'</option>';
-                                    }
+                                while ($row = mysqli_fetch_array($result)){
+                                    echo '<option value="'.$row["id"].'">'.$row["name"].'</option>';
+                                }
                            ?>
-
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="home">Away</label><br>
-                        <select name="home">
-                            
+                        <label for="away">Away</label><br>
+                        <select name="away" class="form-control" id="away">
                            <?php
-                                $sql = "SELECT * FROM teams WHERE tour_id=$tourID";
+                                $sql = "SELECT * FROM teams WHERE tour_id = '$tourID'";
                                 $result = mysqli_query($conn, $sql);
-                                $count = 1;
-                               
-                                while ($row = mysqli_fetch_array($result))
-                                    {                                       
-                                        echo '<option value="'.$row["id"].'">'.$row["name"].'</option>';
-                                    }
-                           ?>
 
+                                while ($row = mysqli_fetch_array($result)){
+                                    echo '<option value="'.$row["id"].'">'.$row["name"].'</option>';
+                                }
+                            ?>
                         </select>
                     </div>
                      <div class="form-group">
                         <label for="game_type">Game Type</label><br>
-                        <select name="game_type">
+                        <select name="game_type" class="form-control" id="game_type">
                             <option value="elimination">Elimination</option>
                             <option value="finals">Finals</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" style="float: right;" class="btn btn-primary"  name="add">Add Schedule</button>
+                        <button type="submit" style="float: right;" class="btn btn-primary"  name="add" id="add-edit-btn">Add Schedule</button>
                     </div>
                 </form>
             </div>
@@ -223,11 +211,15 @@ include("../includes/db.php");
                 </button>
             </div>
             <div class="modal-body">
-                <p>Are you sure to remove this tournament permanently from the database ? </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Add</button>
+                <form action="functions/schedule_function.php" method="post">
+                    <input type="hidden" name="tourID" id="tourID" value="<?php echo $tourID;?>">
+                    <input type="hidden" id="delete-sched-id" name="delete_sched_id">
+                    <p>Are you sure to remove this tournament permanently from the database ? </p>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" name="sched_delete">Delete</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -247,7 +239,68 @@ include("../includes/db.php");
 $(document).ready(function(){
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
+    });
+    // Datatable function
+    $("#sched-table").dataTable();
+
+    // getting the tournament id from h2 tag
+    const tourID =$("#tournament-name").data("id");
+
+    //  function para makua ang tournament name
+    $.post("functions/dashboard_function.php", {
+        tourID: tourID,
+        action: "getTournamentInfo"
     })
+
+        .done(function(data){
+            const name = JSON.parse(data);
+            $("#tournament-name").text(name[0]["name"]);
+        });
+
+
+    $("#add-btn").on("click", function(){
+        $("#date").val("");
+        $("#time").val("");
+        $("#home").val("");
+        $("#away").val("");
+        $("#game_type").val("");
+
+        $("#add").find(".modal-title").text("Add Schedule");
+        $("#add-edit-btn").attr("name","add");
+    });
+
+    // Function to output the data in modal
+    $(".edit-btn").on("click", function(){
+        const schedID = $(this).data("id");
+        $.post("functions/schedule_function.php", {
+            id: schedID,
+            action: 'getScheduleInfo'
+        })
+            .done(function (data){
+                const response = JSON.parse(data);
+
+                $("#date").val(response[0]["date"]);
+                $("#time").val(response[0]["time"]);
+                $("#home").val(response[0]["teamone_id"]);
+                $("#away").val(response[0]["teamtwo_id"]);
+                $("#game_type").val(response[0]["game_type"]);
+                $("#sched_id").val(schedID);
+
+                $("#add-edit-btn").attr("name","edit_btn");
+            })
+            .always(function (){
+                $("#add").find(".modal-title").text("Edit Schedule");
+            })
+    });
+
+    $(".delete-btn").on("click", function(){
+        const deleteID = $(this).data("id");
+        $("#delete-sched-id").val(deleteID);
+    });
+
+
+
+
 })
 </script>
 </body>
