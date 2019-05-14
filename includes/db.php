@@ -1,6 +1,6 @@
 <?php
 // to get the databse connection
-$conn = mysqli_connect('localhost','root','1b9392ebef12172af18fc10a3192c78997084d1ba1f72497','absa');
+$conn = mysqli_connect('localhost','root','','absa');
 
 // Checker kung may error
 if(mysqli_connect_error()){
