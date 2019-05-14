@@ -9,7 +9,8 @@ class LoginForm extends Component {
 		this.state = {
 			username: "",
 			password: "",
-			logged: false
+			logged: false,
+			invalidPass: false,
 		};
 
 		this.handleChangeUsername = this.handleChangeUsername.bind(this);
@@ -32,6 +33,9 @@ class LoginForm extends Component {
 					localStorage.setItem("account", JSON.stringify({username, password}));
 
 					this.setState({logged: true})
+				}else{
+					this.setState({invalidPass: true});
+					localStorage.removeItem("account");
 				}
 			});
 	}
@@ -72,7 +76,12 @@ class LoginForm extends Component {
 					<Grid.Column style={{maxWidth: 350}}>
 						<Segment>
 							<Image src={require("./img/IMG_20190509_114203.jpg")}/>
+							{this.state.invalidPass ? <Message
+								error
+								header='You have entered an invalid username or password.'
+							/> : ""}
 							<Form size='large' onSubmit={this.handleSubmit}>
+
 								<Form.Input fluid icon='user' iconPosition='left' onChange={this.handleChangeUsername} placeholder='Username'/>
 								<Form.Input
 									fluid
