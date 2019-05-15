@@ -53,6 +53,8 @@ class ScheduleList extends Component {
 				)
 			}else{
 				rowData = this.state.scheduleList.map(function (value, index, array) {
+
+					const team_id = localStorage.getItem("type") === "1" ? value.t2_id : value.t1_id;
 					return (
 						<Table.Row key={value.id}>
 							<Table.Cell collapsing>{value.id}</Table.Cell>
@@ -61,7 +63,7 @@ class ScheduleList extends Component {
 							<Table.Cell>{value.game_type}</Table.Cell>
 							<Table.Cell>{value.date + " " + value.time}</Table.Cell>
 							<Table.Cell collapsing>
-								<Link to={`/schedule/${value.id}`} className="ui blue icon right labeled button">
+								<Link to={`/schedule/${value.id}/${team_id}`} className="ui blue icon right labeled button">
 									<span>Open</span>
 									<i aria-hidden="true" className="right arrow icon" />
 								</Link>

@@ -17,9 +17,10 @@ class Attendance extends Component {
 
 	componentDidMount() {
 		const {match} = this.props;
-		const currentScheduleId = match.params.id;
+		const ScheduleId = match.params.sid;
+		const TeamId = match.params.tid;
 
-		fetch(`//${window.location.hostname}/user/api/attendance.php?id=${currentScheduleId}`,
+		fetch(`//${window.location.hostname}/user/api/attendance.php?sid=${ScheduleId}&tid=${TeamId}`,
 			{
 				// body: formData,
 				method: "get"

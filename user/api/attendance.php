@@ -7,8 +7,6 @@ include "../../includes/db.php";
 
 @ $id = $_GET["id"];
 
-echo print_r($_SESSION);
-
 $sql = "SELECT * FROM `players`";
 
 

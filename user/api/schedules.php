@@ -5,7 +5,9 @@ include "../../includes/db.php";
 
 $sql = "SELECT 	s.id AS id, 
 				t1.name AS team_one,
+				t1.id AS t1_id,
 				t2.name AS team_two,
+				t2.id AS t2_id,
 		        s.date,
 		        s.time,
 		        s.game_type

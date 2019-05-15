@@ -15,7 +15,7 @@ function App() {
 			localStorage.getItem("account") ? <ScheduleList /> : <LoginForm />
 		} />
 
-		<Route exact path={"/schedule/:id"} component={Attendance} />
+		<Route exact path={"/schedule/:sid/:tid"} component={Attendance} />
 
 		{/*<Scoring />*/}
 	</HashRouter>
