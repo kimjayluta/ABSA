@@ -31,6 +31,7 @@ class LoginForm extends Component {
 			.then((jsondata) => {
 				if (jsondata.status === "found"){
 					localStorage.setItem("account", JSON.stringify({username, password}));
+					localStorage.setItem("type", jsondata.user_type);
 
 					this.setState({logged: true})
 				}else{

@@ -1,10 +1,16 @@
 <?php
 
 header('Access-Control-Allow-Origin: *');	
+
+session_start();
 include "../../includes/db.php";
 
+@ $id = $_GET["id"];
+
+echo print_r($_SESSION);
 
 $sql = "SELECT * FROM `players`";
+
 
 $result = mysqli_query($conn, $sql);
 
