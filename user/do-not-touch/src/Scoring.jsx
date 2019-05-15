@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Button, Dropdown, Table} from "semantic-ui-react";
+import NavBar from "./NavBar";
 
 class Scoring extends Component {
 
@@ -76,7 +77,8 @@ class Scoring extends Component {
 	}
 
 	render() {
-		return (
+		return (<>
+			<NavBar name={"Scoring"} />
 			<div className={"ui container"}>
 				<Table singleLine>
 					<Table.Header>
@@ -116,10 +118,15 @@ class Scoring extends Component {
 					</Table.Header>
 					<Table.Body>
 						{this.tableRowReadOnly()}
-					</Table.Body>s
+						{this.tableRowReadOnly()}
+						{this.tableRowReadOnly()}
+						{this.tableRowReadOnly()}
+						{this.tableRowReadOnly()}
+						{this.tableRowReadOnly()}
+					</Table.Body>
 				</Table>
 			</div>
-		);
+		</>);
 	}
 }
 
