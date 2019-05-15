@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Button, Checkbox, Table} from "semantic-ui-react";
+import NavBar from "./NavBar";
 
 class Attendance extends Component {
 
@@ -62,23 +63,26 @@ class Attendance extends Component {
 		}
 
 		return (
-			<div className="ui container">
-				<Table singleLine>
-					<Table.Header>
-						<Table.Row>
-							<Table.HeaderCell>Id</Table.HeaderCell>
-							<Table.HeaderCell>First Name</Table.HeaderCell>
-							<Table.HeaderCell>Last Name</Table.HeaderCell>
-							<Table.HeaderCell>Position</Table.HeaderCell>
-							<Table.HeaderCell>Jersey Num</Table.HeaderCell>
-							<Table.HeaderCell>Present</Table.HeaderCell>
-						</Table.Row>
-					</Table.Header>
-					<Table.Body>{rowData}</Table.Body>
-				</Table>
+			<>
+				<NavBar name={"attendance"} />
+				<div className="ui container">
+					<Table singleLine>
+						<Table.Header>
+							<Table.Row>
+								<Table.HeaderCell>Id</Table.HeaderCell>
+								<Table.HeaderCell>First Name</Table.HeaderCell>
+								<Table.HeaderCell>Last Name</Table.HeaderCell>
+								<Table.HeaderCell>Position</Table.HeaderCell>
+								<Table.HeaderCell>Jersey Num</Table.HeaderCell>
+								<Table.HeaderCell>Present</Table.HeaderCell>
+							</Table.Row>
+						</Table.Header>
+						<Table.Body>{rowData}</Table.Body>
+					</Table>
 
-				<button className="ui green button right floated">Finalize</button>
-			</div>
+					<button className="ui green button right floated">Finalize</button>
+				</div>
+			</>
 		);
 	}
 }

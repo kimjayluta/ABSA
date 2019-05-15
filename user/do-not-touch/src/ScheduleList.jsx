@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Table, Menu, Segment, Button} from 'semantic-ui-react'
+import {Table, Button} from 'semantic-ui-react'
+import NavBar from "./NavBar";
 
 class ScheduleList extends Component {
 
@@ -69,21 +70,7 @@ class ScheduleList extends Component {
 
 		return (
 			<>
-				<div style={{"marginBottom": "20px"}}>
-					<Menu pointing secondary>
-						<div className="ui container">
-							<Menu.Item name='schedules' active={true}/>
-							<Menu.Menu position='right'>
-								<Menu.Item
-									name='logout'
-									active={false}
-									onClick={this.handleItemClick}
-								/>
-							</Menu.Menu>
-						</div>
-					</Menu>
-				</div>
-
+				<NavBar name={"schedules"} />
 				<div className="ui container">
 					<Table singleLine>
 						<Table.Header>
