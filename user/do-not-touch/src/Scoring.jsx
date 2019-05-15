@@ -18,7 +18,58 @@ class Scoring extends Component {
 
 		this.state = {
 			orgPlayers: players,
-			players: players
+			players: players,
+			data1: {
+				good1: 0, bad1: 0,
+				good2: 0, bad2: 0,
+				good3: 0, bad3: 0,
+				assist: 0,
+				defRebound: 0, offRebound: 0,
+				steal: 0,
+				foul: 0,
+				block: 0
+			},
+			data2: {
+				good1: 0, bad1: 0,
+				good2: 0, bad2: 0,
+				good3: 0, bad3: 0,
+				assist: 0,
+				defRebound: 0, offRebound: 0,
+				steal: 0,
+				foul: 0,
+				block: 0
+			},
+			data3: {
+				good1: 0, bad1: 0,
+				good2: 0, bad2: 0,
+				good3: 0, bad3: 0,
+				assist: 0,
+				defRebound: 0, offRebound: 0,
+				steal: 0,
+				foul: 0,
+				block: 0
+			},
+			data4: {
+				good1: 0, bad1: 0,
+				good2: 0, bad2: 0,
+				good3: 0, bad3: 0,
+				assist: 0,
+				defRebound: 0, offRebound: 0,
+				steal: 0,
+				foul: 0,
+				block: 0
+			},
+			data5: {
+				good1: 0, bad1: 0,
+				good2: 0, bad2: 0,
+				good3: 0, bad3: 0,
+				assist: 0,
+				defRebound: 0, offRebound: 0,
+				steal: 0,
+				foul: 0,
+				block: 0
+			},
+			totalPoints: 0
 		};
 
 		this.updateOptions = this.updateOptions.bind(this);
@@ -30,67 +81,112 @@ class Scoring extends Component {
 		return this.state.players;
 	}
 
-	tableRowReadOnly(){
+	tableRowReadOnly(count){
 		return (
-			<Table.Row>
+			<Table.Row key={count}>
 				<Table.Cell> Player </Table.Cell>
-				<Table.Cell collapsing>0</Table.Cell>
-				<Table.Cell collapsing>0</Table.Cell>
-				<Table.Cell collapsing>0</Table.Cell>
-				<Table.Cell collapsing>0</Table.Cell>
-				<Table.Cell collapsing>0</Table.Cell>
-				<Table.Cell collapsing>0</Table.Cell>
-				<Table.Cell collapsing>0</Table.Cell>
-				<Table.Cell collapsing>0</Table.Cell>
-				<Table.Cell collapsing>0</Table.Cell>
-				<Table.Cell collapsing>0</Table.Cell>
-				<Table.Cell collapsing>0</Table.Cell>
-				<Table.Cell collapsing>0</Table.Cell>
+				{/* 1 */}
+				<Table.Cell collapsing>{this.state[count].good1}</Table.Cell>
+				<Table.Cell collapsing>{this.state[count].bad1}</Table.Cell>
+
+				{/* 2 */}
+				<Table.Cell collapsing>{this.state[count].good2}</Table.Cell>
+				<Table.Cell collapsing>{this.state[count].bad2}</Table.Cell>
+
+				{/* 3 */}
+				<Table.Cell collapsing>{this.state[count].good3}</Table.Cell>
+				<Table.Cell collapsing>{this.state[count].bad3}</Table.Cell>
+
+				{/* assist */}
+				<Table.Cell collapsing>{this.state[count].assist}</Table.Cell>
+
+				{/* rebound */}
+				<Table.Cell collapsing>{this.state[count].defRebound}</Table.Cell>
+				<Table.Cell collapsing>{this.state[count].offRebound}</Table.Cell>
+
+				{/* steal, foul, block */}
+				<Table.Cell collapsing>{this.state[count].steal}</Table.Cell>
+				<Table.Cell collapsing>{this.state[count].foul}</Table.Cell>
+				<Table.Cell collapsing>{this.state[count].block}</Table.Cell>
 			</Table.Row>
 		)
 	}
 
-	tableRow(){
+	tableRow(count){
+
+		const setValue = (row) => {
+			return this.setState({
+				[count]: {
+					...this.state[count],
+					[row]: this.state[count][row] + 1
+				}
+			})
+		};
+
 		return (
-			<Table.Row>
+			<Table.Row key={count}>
 				<Table.Cell>
-					<Dropdown placeholder='Player' search selection options={this.state.players} />
+					<Dropdown placeholder='State' clearable search selection options={this.state.players} />
 				</Table.Cell>
 				<Table.Cell collapsing>
 					<div>
-						<Button color={"green"} attached='left' size={"tiny"}>1</Button>
-						<Button color={"red"} attached='right' size={"tiny"}>1</Button>
+						<Button color={"green"} attached='left' size={"tiny"}
+								onClick={() => setValue("good1")}
+						>1</Button>
+						<Button color={"red"} attached='right' size={"tiny"}
+								onClick={() => setValue("bad1")}
+						>1</Button>
 					</div>
 				</Table.Cell>
 				<Table.Cell collapsing>
 					<div>
-						<Button color={"green"} attached='left' size={"tiny"}>2</Button>
-						<Button color={"red"} attached='right' size={"tiny"}>2</Button>
+						<Button color={"green"} attached='left' size={"tiny"}
+								onClick={() => setValue("good2")}
+						>2</Button>
+						<Button color={"red"} attached='right' size={"tiny"}
+								onClick={() => setValue("bad2")}
+						>2</Button>
 					</div>
 				</Table.Cell>
 				<Table.Cell collapsing>
 					<div>
-						<Button color={"green"} attached='left' size={"tiny"}>3</Button>
-						<Button color={"red"} attached='right' size={"tiny"}>3</Button>
+						<Button color={"green"} attached='left' size={"tiny"}
+								onClick={() => setValue("good3")}
+						>3</Button>
+						<Button color={"red"} attached='right' size={"tiny"}
+								onClick={() => setValue("bad3")}
+						>3</Button>
 					</div>
 				</Table.Cell>
 				<Table.Cell collapsing>
-					<Button color={"green"} size={"tiny"}>Assist</Button>
+					<Button color={"green"} size={"tiny"}
+								onClick={() => setValue("assist")}
+					>Assist</Button>
 				</Table.Cell>
 				<Table.Cell collapsing>
 					<div>
-						<Button color={"grey"} attached='left' size={"tiny"}>Defensive</Button>
-						<Button color={"grey"} attached='right' size={"tiny"}>Offensive</Button>
+						<Button color={"grey"} attached='left' size={"tiny"}
+								onClick={() => setValue("defRebound")}
+						>Defensive</Button>
+						<Button color={"grey"} attached='right' size={"tiny"}
+								onClick={() => setValue("offRebound")}
+						>Offensive</Button>
 					</div>
 				</Table.Cell>
 				<Table.Cell collapsing>
-					<Button color={"grey"} size={"tiny"}>Steal</Button>
+					<Button color={"grey"} size={"tiny"}
+								onClick={() => setValue("steal")}
+					>Steal</Button>
 				</Table.Cell>
 				<Table.Cell collapsing>
-					<Button color={"grey"} size={"tiny"}>Foul</Button>
+					<Button color={"grey"} size={"tiny"}
+								onClick={() => setValue("foul")}
+					>Foul</Button>
 				</Table.Cell>
 				<Table.Cell collapsing>
-					<Button color={"grey"} size={"tiny"}>Block</Button>
+					<Button color={"grey"} size={"tiny"}
+								onClick={() => setValue("block")}
+					>Block</Button>
 				</Table.Cell>
 			</Table.Row>
 		)
@@ -116,11 +212,11 @@ class Scoring extends Component {
 						</Table.Row>
 					</Table.Header>
 					<Table.Body>
-						{this.tableRow()}
-						{this.tableRow()}
-						{this.tableRow()}
-						{this.tableRow()}
-						{this.tableRow()}
+						{this.tableRow("data1")}
+						{this.tableRow("data2")}
+						{this.tableRow("data3")}
+						{this.tableRow("data4")}
+						{this.tableRow("data5")}
 					</Table.Body>
 				</Table>
 				<Table singleLine celled>
@@ -134,16 +230,15 @@ class Scoring extends Component {
 							<Table.HeaderCell colSpan={2}>Rebound</Table.HeaderCell>
 							<Table.HeaderCell colSpan={1}>Steal</Table.HeaderCell>
 							<Table.HeaderCell colSpan={1}>Foul</Table.HeaderCell>
-							<Table.HeaderCell colSpan={1}>Flagrant Foul</Table.HeaderCell>
+							<Table.HeaderCell colSpan={1}>Block</Table.HeaderCell>
 						</Table.Row>
 					</Table.Header>
 					<Table.Body>
-						{this.tableRowReadOnly()}
-						{this.tableRowReadOnly()}
-						{this.tableRowReadOnly()}
-						{this.tableRowReadOnly()}
-						{this.tableRowReadOnly()}
-						{this.tableRowReadOnly()}
+						{this.tableRowReadOnly("data1")}
+						{this.tableRowReadOnly("data2")}
+						{this.tableRowReadOnly("data3")}
+						{this.tableRowReadOnly("data4")}
+						{this.tableRowReadOnly("data5")}
 					</Table.Body>
 				</Table>
 			</div>
