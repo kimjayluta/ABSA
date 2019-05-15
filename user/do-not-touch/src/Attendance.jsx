@@ -16,7 +16,10 @@ class Attendance extends Component {
 	}
 
 	componentDidMount() {
-		fetch(`//${window.location.hostname}/user/api/attendance.php`,
+		const {match} = this.props;
+		const currentScheduleId = match.params.id;
+
+		fetch(`//${window.location.hostname}/user/api/attendance.php?id=${currentScheduleId}`,
 			{
 				// body: formData,
 				method: "get"
@@ -46,9 +49,6 @@ class Attendance extends Component {
 	}
 
 	render() {
-		const {match} = this.props;
-		const currentScheduleId = match.params.id;
-
 		let rowData = (
 			<Table.Row>
 				<Table.Cell colSpan={6} className={"center aligned"}>Loading Data, Please wait...</Table.Cell>
