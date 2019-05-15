@@ -115,6 +115,24 @@ class Scoring extends Component {
 	tableRow(count){
 
 		const setValue = (row) => {
+			switch (row) {
+				case "good1":
+					this.setState({
+						totalPoints: this.state.totalPoints + 1
+					});
+					break;
+				case "good2":
+					this.setState({
+						totalPoints: this.state.totalPoints + 2
+					});
+					break;
+				case "good3":
+					this.setState({
+						totalPoints: this.state.totalPoints + 3
+					});
+					break;
+			}
+
 			return this.setState({
 				[count]: {
 					...this.state[count],
@@ -195,7 +213,7 @@ class Scoring extends Component {
 	render() {
 		return (<>
 			<NavBar name={"Scoring"} />
-			<Header as='h1' className={"centered aligned"}>100</Header>
+			<Header as='h1' className={"centered aligned"}>{this.state.totalPoints}</Header>
 			<div className={"ui container"}>
 				<Table singleLine>
 					<Table.Header>
