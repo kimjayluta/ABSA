@@ -13,7 +13,6 @@ if (!isset($usn) || !isset($password)){
 }
 
 $sql = "SELECT * FROM `user` WHERE `usn` = '$usn'";
-
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_array($result);
 

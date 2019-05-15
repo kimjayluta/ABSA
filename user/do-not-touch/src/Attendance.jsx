@@ -48,6 +48,7 @@ class Attendance extends Component {
 			let formData = new FormData();
 			formData.append('sid', match.params.sid);
 			formData.append('tid', match.params.tid);
+			formData.append('players', Object.keys(this.state.checkList));
 
 			fetch(`//${window.location.hostname}/user/api/attendance.php`,
 				{

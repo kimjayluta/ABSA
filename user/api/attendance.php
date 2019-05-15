@@ -9,7 +9,19 @@ include "../../includes/db.php";
 @ $sid = $_POST["sid"];
 
 if (isset($sid) && isset($tid)){
-	echo json_encode(array("status" => "fuck you got me"));
+	@ $players = $_POST["players"];
+	@ $players = explode(",", $players);
+
+	if (@ count($players) > 0){
+		for ($i=0; $i < count($players); $i++) { 
+			$sql = "
+				INSERT INTO `attendance` (`player_id`, `sched_id`) VALUES ( $players[$i], $sid)
+				ON DUPLICATE KEY UPDATE player_id = player_id";
+			mysqli_query($conn, $sql);
+		}
+	}
+
+	echo json_encode(array("status" => "DONE"));
 	exit;
 }
 
@@ -17,11 +29,9 @@ if (isset($sid) && isset($tid)){
 @ $id = $_GET["tid"];
 
 $sql = "SELECT * FROM `players` WHERE `team_id`=$id";
-
-
 $result = mysqli_query($conn, $sql);
 
-if (mysqli_num_rows($result) > 0) {
+if (@ mysqli_num_rows($result) > 0) {
 
 	while ($row = mysqli_fetch_assoc($result)){
 		$data[] = $row;
