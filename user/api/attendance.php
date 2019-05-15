@@ -5,9 +5,9 @@ header('Access-Control-Allow-Origin: *');
 session_start();
 include "../../includes/db.php";
 
-@ $id = $_GET["id"];
+@ $id = $_GET["tid"];
 
-$sql = "SELECT * FROM `players`";
+$sql = "SELECT * FROM `players` WHERE `team_id`=$id";
 
 
 $result = mysqli_query($conn, $sql);
