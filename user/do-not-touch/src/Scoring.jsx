@@ -3,6 +3,26 @@ import {Button, Dropdown, Table} from "semantic-ui-react";
 
 class Scoring extends Component {
 
+	tableRowReadOnly(){
+		return (
+			<Table.Row>
+				<Table.Cell> Player </Table.Cell>
+				<Table.Cell collapsing>0</Table.Cell>
+				<Table.Cell collapsing>0</Table.Cell>
+				<Table.Cell collapsing>0</Table.Cell>
+				<Table.Cell collapsing>0</Table.Cell>
+				<Table.Cell collapsing>0</Table.Cell>
+				<Table.Cell collapsing>0</Table.Cell>
+				<Table.Cell collapsing>0</Table.Cell>
+				<Table.Cell collapsing>0</Table.Cell>
+				<Table.Cell collapsing>0</Table.Cell>
+				<Table.Cell collapsing>0</Table.Cell>
+				<Table.Cell collapsing>0</Table.Cell>
+				<Table.Cell collapsing>0</Table.Cell>
+			</Table.Row>
+		)
+	}
+
 	tableRow(){
 		return (
 			<Table.Row>
@@ -79,6 +99,24 @@ class Scoring extends Component {
 						{this.tableRow()}
 						{this.tableRow()}
 					</Table.Body>
+				</Table>
+				<Table singleLine celled>
+					<Table.Header>
+						<Table.Row>
+							<Table.HeaderCell>Players</Table.HeaderCell>
+							<Table.HeaderCell colSpan={2}>Free throw</Table.HeaderCell>
+							<Table.HeaderCell colSpan={2}>2 points</Table.HeaderCell>
+							<Table.HeaderCell colSpan={2}>3 points</Table.HeaderCell>
+							<Table.HeaderCell colSpan={1}>Assist</Table.HeaderCell>
+							<Table.HeaderCell colSpan={2}>Rebound</Table.HeaderCell>
+							<Table.HeaderCell colSpan={1}>Steal</Table.HeaderCell>
+							<Table.HeaderCell colSpan={1}>Foul</Table.HeaderCell>
+							<Table.HeaderCell colSpan={1}>Flagrant Foul</Table.HeaderCell>
+						</Table.Row>
+					</Table.Header>
+					<Table.Body>
+						{this.tableRowReadOnly()}
+					</Table.Body>s
 				</Table>
 			</div>
 		);
