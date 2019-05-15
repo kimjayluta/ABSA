@@ -37,6 +37,7 @@ class LoginForm extends Component {
 				}else{
 					this.setState({invalidPass: true});
 					localStorage.removeItem("account");
+					localStorage.removeItem("type");
 				}
 			});
 	}

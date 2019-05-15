@@ -2,6 +2,14 @@ import React, {Component} from 'react';
 import {Table, Menu, Segment, Button} from 'semantic-ui-react'
 
 class NavBar extends Component {
+
+	handleItemClick(){
+		localStorage.removeItem("account");
+		localStorage.removeItem("type");
+
+		window.location.reload(true);
+	}
+
 	render() {
 		return (
 			<div style={{"marginBottom": "20px"}}>
