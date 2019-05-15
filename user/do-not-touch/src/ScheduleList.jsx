@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Table, Button} from 'semantic-ui-react'
+import {Table} from 'semantic-ui-react'
 import NavBar from "./NavBar";
 import {Link} from 'react-router-dom';
 
@@ -31,11 +31,6 @@ class ScheduleList extends Component {
 	}
 
 	render() {
-		/*if (this.state.isLoading){
-			return <b>Loading Please wait...</b>
-		}
-
-		return <b>There is some found {this.state.scheduleList.length}</b>*/
 
 		let rowData = (
 			<Table.Row>

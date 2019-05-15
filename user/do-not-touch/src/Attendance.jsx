@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Checkbox, Table} from "semantic-ui-react";
 import NavBar from "./NavBar";
+import Scoring from "./Scoring";
 
 class Attendance extends Component {
 	constructor(props) {
@@ -9,7 +10,8 @@ class Attendance extends Component {
 			isLoading: true,
 			isFinalizing: false,
 			playerList: [],
-			checkList: []
+			checkList: [],
+			isReadyToScore: false
 		};
 
 		this.handleFinalize = this.handleFinalize.bind(this);
@@ -57,14 +59,20 @@ class Attendance extends Component {
 				}).then(response => response.json())
 				.then((jsondata) => {
 					console.log(jsondata);
-					this.setState({isFinalizing: false});
-
-					// TODO: redirect into the scoreboard when successful.
+					this.setState({
+						isFinalizing: false,
+						isReadyToScore: true
+					});
 				});
 		}, 500)
 	}
 
 	render() {
+		// Load the Scoring UI
+		if (this.state.isReadyToScore){
+			return <Scoring />
+		}
+
 		let rowData = (
 			<Table.Row>
 				<Table.Cell colSpan={6} className={"center aligned"}>Loading Data, Please wait...</Table.Cell>
