@@ -5,14 +5,20 @@ import Attendance from "./Attendance";
 import Scoring from "./Scoring";
 import ScheduleList from "./ScheduleList";
 
+import {HashRouter, Route} from 'react-router-dom'
+
 
 function App() {
   return (
-  	<>
-		{/*{localStorage.getItem("account") ? <ScheduleList /> : <LoginForm />}*/}
-		<Attendance />
+  	<HashRouter>
+		<Route exact path={"/"} component={() =>
+			localStorage.getItem("account") ? <ScheduleList /> : <LoginForm />
+		} />
+
+		<Route exact path={"/schedule/:id"} component={Attendance} />
+
 		{/*<Scoring />*/}
-	</>
+	</HashRouter>
   );
 }
 

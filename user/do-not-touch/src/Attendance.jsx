@@ -46,12 +46,14 @@ class Attendance extends Component {
 	}
 
 	render() {
+		const {match} = this.props;
+		const currentScheduleId = match.params.id;
+
 		let rowData = (
 			<Table.Row>
 				<Table.Cell colSpan={6} className={"center aligned"}>Loading Data, Please wait...</Table.Cell>
 			</Table.Row>
 		);
-
 
 		if (!this.state.isLoading){
 			if (this.state.playerList.length < 1){

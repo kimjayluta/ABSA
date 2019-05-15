@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Table, Button} from 'semantic-ui-react'
 import NavBar from "./NavBar";
+import {Link} from 'react-router-dom';
 
 class ScheduleList extends Component {
 
@@ -60,7 +61,10 @@ class ScheduleList extends Component {
 							<Table.Cell>{value.game_type}</Table.Cell>
 							<Table.Cell>{value.date + " " + value.time}</Table.Cell>
 							<Table.Cell collapsing>
-								<Button content='Open' icon='right arrow' labelPosition='right' color={"blue"} />
+								<Link to={`/schedule/${value.id}`} className="ui blue icon right labeled button">
+									<span>Open</span>
+									<i aria-hidden="true" className="right arrow icon" />
+								</Link>
 							</Table.Cell>
 						</Table.Row>
 					)
