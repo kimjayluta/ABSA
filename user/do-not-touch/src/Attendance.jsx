@@ -1,8 +1,66 @@
 import React, {Component} from 'react';
-import {Checkbox, Table} from "semantic-ui-react";
+import {Button, Checkbox, Table} from "semantic-ui-react";
 
 class Attendance extends Component {
+
+	state = {
+		isLoading: true,
+		playerList: []
+	};
+
+	componentDidMount() {
+		fetch(`//${window.location.hostname}/user/api/attendance.php`,
+			{
+				// body: formData,
+				method: "get"
+			}).then(response => response.json())
+			.then((jsondata) => {
+				if (jsondata.length){
+					this.setState({
+						isLoading: false,
+						playerList: jsondata
+					});
+				}else{
+					this.setState({
+						isLoading: false
+					})
+				}
+			});
+	}
+
 	render() {
+		let rowData = (
+			<Table.Row>
+				<Table.Cell colSpan={6} className={"center aligned"}>Loading Data, Please wait...</Table.Cell>
+			</Table.Row>
+		);
+
+
+		if (!this.state.isLoading){
+			if (this.state.playerList.length < 1){
+				rowData = (
+					<Table.Row>
+						<Table.Cell colSpan={6} className={"center aligned"}>Sorry no schedule found</Table.Cell>
+					</Table.Row>
+				)
+			}else{
+				rowData = this.state.playerList.map(function (value, index, array) {
+					return (
+						<Table.Row>
+							<Table.Cell collapsing>{value.id}</Table.Cell>
+							<Table.Cell>{value.first_name}</Table.Cell>
+							<Table.Cell>{value.last_name}</Table.Cell>
+							<Table.Cell>{value.position}</Table.Cell>
+							<Table.Cell>{value.jersey_num}</Table.Cell>
+							<Table.Cell collapsing>
+								<Checkbox toggle />
+							</Table.Cell>
+						</Table.Row>
+					)
+				})
+			}
+		}
+
 		return (
 			<div className="ui container">
 				<Table singleLine>
@@ -16,18 +74,7 @@ class Attendance extends Component {
 							<Table.HeaderCell>Present</Table.HeaderCell>
 						</Table.Row>
 					</Table.Header>
-					<Table.Body>
-						<Table.Row>
-							<Table.Cell collapsing>1</Table.Cell>
-							<Table.Cell>Luis Edward</Table.Cell>
-							<Table.Cell>Miranda</Table.Cell>
-							<Table.Cell>PG</Table.Cell>
-							<Table.Cell>10</Table.Cell>
-							<Table.Cell collapsing>
-								<Checkbox toggle />
-							</Table.Cell>
-						</Table.Row>
-					</Table.Body>
+					<Table.Body>{rowData}</Table.Body>
 				</Table>
 
 				<button className="ui green button right floated">Finalize</button>
