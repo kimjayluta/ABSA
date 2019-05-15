@@ -8,7 +8,8 @@ class Attendance extends Component {
 		this.state = {
 			isLoading: true,
 			isFinalizing: false,
-			playerList: []
+			playerList: [],
+			checkList: []
 		};
 
 		this.handleFinalize = this.handleFinalize.bind(this);
@@ -38,6 +39,8 @@ class Attendance extends Component {
 		this.setState({isFinalizing: true});
 
 		setTimeout(() => {
+
+			// TODO: redirect into the scoreboard
 			this.setState({isFinalizing: false});
 		}, 500)
 	}
@@ -58,20 +61,29 @@ class Attendance extends Component {
 					</Table.Row>
 				)
 			}else{
-				rowData = this.state.playerList.map(function (value, index, array) {
+				rowData = this.state.playerList.map((value, index, array) => {
 					return (
-						<Table.Row>
+						<Table.Row key={value.id}>
 							<Table.Cell collapsing>{value.id}</Table.Cell>
 							<Table.Cell>{value.first_name}</Table.Cell>
 							<Table.Cell>{value.last_name}</Table.Cell>
 							<Table.Cell>{value.position}</Table.Cell>
 							<Table.Cell>{value.jersey_num}</Table.Cell>
 							<Table.Cell collapsing>
-								<Checkbox toggle />
+								<Checkbox toggle onChange={(e, data) => {
+									if (data.checked){
+										this.setState({"checkList": {...this.state.checkList, ...{[value.id]: data.checked}}});
+										return;
+									}
+
+									const newList = Object.assign({}, this.state.checkList);
+									delete newList[value.id];
+									this.setState({"checkList": newList})
+								}} />
 							</Table.Cell>
 						</Table.Row>
 					)
-				})
+				});
 			}
 		}
 
