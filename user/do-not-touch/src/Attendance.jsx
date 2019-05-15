@@ -3,11 +3,16 @@ import {Button, Checkbox, Table} from "semantic-ui-react";
 import NavBar from "./NavBar";
 
 class Attendance extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			isLoading: true,
+			isFinalizing: false,
+			playerList: []
+		};
 
-	state = {
-		isLoading: true,
-		playerList: []
-	};
+		this.handleFinalize = this.handleFinalize.bind(this);
+	}
 
 	componentDidMount() {
 		fetch(`//${window.location.hostname}/user/api/attendance.php`,
@@ -27,6 +32,14 @@ class Attendance extends Component {
 					})
 				}
 			});
+	}
+
+	handleFinalize(){
+		this.setState({isFinalizing: true});
+
+		setTimeout(() => {
+			this.setState({isFinalizing: false});
+		}, 500)
 	}
 
 	render() {
@@ -80,7 +93,10 @@ class Attendance extends Component {
 						<Table.Body>{rowData}</Table.Body>
 					</Table>
 
-					<button className="ui green button right floated">Finalize</button>
+					{this.state.isFinalizing ?
+						<Button loading className={"right floated"}>Loading</Button>:
+						<button className="ui green button right floated" onClick={this.handleFinalize}>Finalize</button>
+					}
 				</div>
 			</>
 		);
