@@ -43,9 +43,23 @@ class Attendance extends Component {
 		this.setState({isFinalizing: true});
 
 		setTimeout(() => {
+			const {match} = this.props;
 
-			// TODO: redirect into the scoreboard
-			this.setState({isFinalizing: false});
+			let formData = new FormData();
+			formData.append('sid', match.params.sid);
+			formData.append('tid', match.params.tid);
+
+			fetch(`//${window.location.hostname}/user/api/attendance.php`,
+				{
+					body: formData,
+					method: "POST"
+				}).then(response => response.json())
+				.then((jsondata) => {
+					console.log(jsondata);
+					this.setState({isFinalizing: false});
+
+					// TODO: redirect into the scoreboard when successful.
+				});
 		}, 500)
 	}
 
