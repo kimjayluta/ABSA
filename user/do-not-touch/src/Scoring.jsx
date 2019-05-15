@@ -1,8 +1,34 @@
 import React, {Component} from 'react';
-import {Button, Dropdown, Table} from "semantic-ui-react";
+import {Button, Dropdown, Table, Header} from "semantic-ui-react";
 import NavBar from "./NavBar";
 
 class Scoring extends Component {
+	constructor(props) {
+		super(props);
+
+		// Make the props as the initial state
+		const dataObject = this.props.data;
+		const players = Object.keys(dataObject).map(function(key, index) {
+			return {
+				key,
+				value: key,
+				text: dataObject[key]
+			}
+		});
+
+		this.state = {
+			orgPlayers: players,
+			players: players
+		};
+
+		this.updateOptions = this.updateOptions.bind(this);
+	}
+
+	updateOptions(){
+		// TODO: Remove the players that is already selected
+		// TODO: Remove the players that has 5 fouls..
+		return this.state.players;
+	}
 
 	tableRowReadOnly(){
 		return (
@@ -28,13 +54,7 @@ class Scoring extends Component {
 		return (
 			<Table.Row>
 				<Table.Cell>
-					<Dropdown placeholder='Player' search selection options={[
-						{
-							key: 1,
-							text: "Fuck you",
-							value: 1
-						}
-					]} />
+					<Dropdown placeholder='Player' search selection options={this.state.players} />
 				</Table.Cell>
 				<Table.Cell collapsing>
 					<div>
@@ -70,7 +90,7 @@ class Scoring extends Component {
 					<Button color={"grey"} size={"tiny"}>Foul</Button>
 				</Table.Cell>
 				<Table.Cell collapsing>
-					<Button color={"grey"} size={"tiny"}>Flagrant Foul</Button>
+					<Button color={"grey"} size={"tiny"}>Block</Button>
 				</Table.Cell>
 			</Table.Row>
 		)
@@ -79,6 +99,7 @@ class Scoring extends Component {
 	render() {
 		return (<>
 			<NavBar name={"Scoring"} />
+			<Header as='h1' className={"centered aligned"}>100</Header>
 			<div className={"ui container"}>
 				<Table singleLine>
 					<Table.Header>
@@ -91,7 +112,7 @@ class Scoring extends Component {
 							<Table.HeaderCell>Rebound</Table.HeaderCell>
 							<Table.HeaderCell>Steal</Table.HeaderCell>
 							<Table.HeaderCell>Foul</Table.HeaderCell>
-							<Table.HeaderCell>Flagrant Foul</Table.HeaderCell>
+							<Table.HeaderCell>Block</Table.HeaderCell>
 						</Table.Row>
 					</Table.Header>
 					<Table.Body>

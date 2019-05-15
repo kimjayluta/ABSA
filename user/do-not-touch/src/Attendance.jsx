@@ -58,7 +58,6 @@ class Attendance extends Component {
 					method: "POST"
 				}).then(response => response.json())
 				.then((jsondata) => {
-					console.log(jsondata);
 					this.setState({
 						isFinalizing: false,
 						isReadyToScore: true
@@ -70,7 +69,7 @@ class Attendance extends Component {
 	render() {
 		// Load the Scoring UI
 		if (this.state.isReadyToScore){
-			return <Scoring />
+			return <Scoring data={this.state.checkList} />
 		}
 
 		let rowData = (
@@ -98,7 +97,8 @@ class Attendance extends Component {
 							<Table.Cell collapsing>
 								<Checkbox toggle onChange={(e, data) => {
 									if (data.checked){
-										this.setState({"checkList": {...this.state.checkList, ...{[value.id]: data.checked}}});
+										const name = `[${value.jersey_num}] ${value.first_name} ${value.last_name}`;
+										this.setState({"checkList": {...this.state.checkList, ...{[value.id]: name}}});
 										return;
 									}
 
