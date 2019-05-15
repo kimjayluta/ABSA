@@ -2,6 +2,59 @@ import React, {Component} from 'react';
 import {Button, Dropdown, Table} from "semantic-ui-react";
 
 class Scoring extends Component {
+
+	tableRow(){
+		return (
+			<Table.Row>
+				<Table.Cell>
+					<Dropdown placeholder='Player' search selection options={[
+						{
+							key: 1,
+							text: "Fuck you",
+							value: 1
+						}
+					]} />
+				</Table.Cell>
+				<Table.Cell collapsing>
+					<div>
+						<Button color={"green"} attached='left' size={"tiny"}>1</Button>
+						<Button color={"red"} attached='right' size={"tiny"}>1</Button>
+					</div>
+				</Table.Cell>
+				<Table.Cell collapsing>
+					<div>
+						<Button color={"green"} attached='left' size={"tiny"}>2</Button>
+						<Button color={"red"} attached='right' size={"tiny"}>2</Button>
+					</div>
+				</Table.Cell>
+				<Table.Cell collapsing>
+					<div>
+						<Button color={"green"} attached='left' size={"tiny"}>3</Button>
+						<Button color={"red"} attached='right' size={"tiny"}>3</Button>
+					</div>
+				</Table.Cell>
+				<Table.Cell collapsing>
+					<Button color={"green"} size={"tiny"}>Assist</Button>
+				</Table.Cell>
+				<Table.Cell collapsing>
+					<div>
+						<Button color={"grey"} attached='left' size={"tiny"}>Defensive</Button>
+						<Button color={"grey"} attached='right' size={"tiny"}>Offensive</Button>
+					</div>
+				</Table.Cell>
+				<Table.Cell collapsing>
+					<Button color={"grey"} size={"tiny"}>Steal</Button>
+				</Table.Cell>
+				<Table.Cell collapsing>
+					<Button color={"grey"} size={"tiny"}>Foul</Button>
+				</Table.Cell>
+				<Table.Cell collapsing>
+					<Button color={"grey"} size={"tiny"}>Flagrant Foul</Button>
+				</Table.Cell>
+			</Table.Row>
+		)
+	}
+
 	render() {
 		return (
 			<div className={"ui container"}>
@@ -20,241 +73,11 @@ class Scoring extends Component {
 						</Table.Row>
 					</Table.Header>
 					<Table.Body>
-						<Table.Row>
-							<Table.Cell>
-								<Dropdown placeholder='Player' search selection options={[
-									{
-										key: 1,
-										text: "Fuck you",
-										value: 1
-									}
-								]} />
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<div>
-									<Button color={"green"} attached='left' size={"tiny"}>1</Button>
-									<Button color={"red"} attached='right' size={"tiny"}>1</Button>
-								</div>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<div>
-									<Button color={"green"} attached='left' size={"tiny"}>2</Button>
-									<Button color={"red"} attached='right' size={"tiny"}>2</Button>
-								</div>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<div>
-									<Button color={"green"} attached='left' size={"tiny"}>3</Button>
-									<Button color={"red"} attached='right' size={"tiny"}>3</Button>
-								</div>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<Button color={"green"} size={"tiny"}>Assist</Button>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<div>
-									<Button color={"grey"} attached='left' size={"tiny"}>Defensive</Button>
-									<Button color={"grey"} attached='right' size={"tiny"}>Offensive</Button>
-								</div>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<Button color={"grey"} size={"tiny"}>Steal</Button>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<Button color={"grey"} size={"tiny"}>Foul</Button>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<Button color={"grey"} size={"tiny"}>Flagrant Foul</Button>
-							</Table.Cell>
-						</Table.Row>
-						<Table.Row>
-							<Table.Cell>
-								<Dropdown placeholder='Player' search selection options={[
-									{
-										key: 1,
-										text: "Fuck you",
-										value: 1
-									}
-								]} />
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<div>
-									<Button color={"green"} attached='left' size={"tiny"}>1</Button>
-									<Button color={"red"} attached='right' size={"tiny"}>1</Button>
-								</div>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<div>
-									<Button color={"green"} attached='left' size={"tiny"}>2</Button>
-									<Button color={"red"} attached='right' size={"tiny"}>2</Button>
-								</div>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<div>
-									<Button color={"green"} attached='left' size={"tiny"}>3</Button>
-									<Button color={"red"} attached='right' size={"tiny"}>3</Button>
-								</div>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<Button color={"green"} size={"tiny"}>Assist</Button>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<div>
-									<Button color={"grey"} attached='left' size={"tiny"}>Defensive</Button>
-									<Button color={"grey"} attached='right' size={"tiny"}>Offensive</Button>
-								</div>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<Button color={"grey"} size={"tiny"}>Steal</Button>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<Button color={"grey"} size={"tiny"}>Foul</Button>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<Button color={"grey"} size={"tiny"}>Flagrant Foul</Button>
-							</Table.Cell>
-						</Table.Row>
-						<Table.Row>
-							<Table.Cell>
-								<Dropdown placeholder='Player' search selection options={[
-									{
-										key: 1,
-										text: "Fuck you",
-										value: 1
-									}
-								]} />
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<div>
-									<Button color={"green"} attached='left' size={"tiny"}>1</Button>
-									<Button color={"red"} attached='right' size={"tiny"}>1</Button>
-								</div>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<div>
-									<Button color={"green"} attached='left' size={"tiny"}>2</Button>
-									<Button color={"red"} attached='right' size={"tiny"}>2</Button>
-								</div>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<div>
-									<Button color={"green"} attached='left' size={"tiny"}>3</Button>
-									<Button color={"red"} attached='right' size={"tiny"}>3</Button>
-								</div>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<Button color={"green"} size={"tiny"}>Assist</Button>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<div>
-									<Button color={"grey"} attached='left' size={"tiny"}>Defensive</Button>
-									<Button color={"grey"} attached='right' size={"tiny"}>Offensive</Button>
-								</div>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<Button color={"grey"} size={"tiny"}>Steal</Button>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<Button color={"grey"} size={"tiny"}>Foul</Button>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<Button color={"grey"} size={"tiny"}>Flagrant Foul</Button>
-							</Table.Cell>
-						</Table.Row>
-						<Table.Row>
-							<Table.Cell>
-								<Dropdown placeholder='Player' search selection options={[
-									{
-										key: 1,
-										text: "Fuck you",
-										value: 1
-									}
-								]} />
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<div>
-									<Button color={"green"} attached='left' size={"tiny"}>1</Button>
-									<Button color={"red"} attached='right' size={"tiny"}>1</Button>
-								</div>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<div>
-									<Button color={"green"} attached='left' size={"tiny"}>2</Button>
-									<Button color={"red"} attached='right' size={"tiny"}>2</Button>
-								</div>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<div>
-									<Button color={"green"} attached='left' size={"tiny"}>3</Button>
-									<Button color={"red"} attached='right' size={"tiny"}>3</Button>
-								</div>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<Button color={"green"} size={"tiny"}>Assist</Button>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<div>
-									<Button color={"grey"} attached='left' size={"tiny"}>Defensive</Button>
-									<Button color={"grey"} attached='right' size={"tiny"}>Offensive</Button>
-								</div>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<Button color={"grey"} size={"tiny"}>Steal</Button>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<Button color={"grey"} size={"tiny"}>Foul</Button>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<Button color={"grey"} size={"tiny"}>Flagrant Foul</Button>
-							</Table.Cell>
-						</Table.Row>
-						<Table.Row>
-							<Table.Cell>
-								<Dropdown placeholder='Player' search selection options={[
-									{
-										key: 1,
-										text: "Fuck you",
-										value: 1
-									}
-								]} />
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<div>
-									<Button color={"green"} attached='left' size={"tiny"}>1</Button>
-									<Button color={"red"} attached='right' size={"tiny"}>1</Button>
-								</div>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<div>
-									<Button color={"green"} attached='left' size={"tiny"}>2</Button>
-									<Button color={"red"} attached='right' size={"tiny"}>2</Button>
-								</div>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<div>
-									<Button color={"green"} attached='left' size={"tiny"}>3</Button>
-									<Button color={"red"} attached='right' size={"tiny"}>3</Button>
-								</div>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<Button color={"green"} size={"tiny"}>Assist</Button>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<div>
-									<Button color={"grey"} attached='left' size={"tiny"}>Defensive</Button>
-									<Button color={"grey"} attached='right' size={"tiny"}>Offensive</Button>
-								</div>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<Button color={"grey"} size={"tiny"}>Steal</Button>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<Button color={"grey"} size={"tiny"}>Foul</Button>
-							</Table.Cell>
-							<Table.Cell collapsing>
-								<Button color={"grey"} size={"tiny"}>Flagrant Foul</Button>
-							</Table.Cell>
-						</Table.Row>
+						{this.tableRow()}
+						{this.tableRow()}
+						{this.tableRow()}
+						{this.tableRow()}
+						{this.tableRow()}
 					</Table.Body>
 				</Table>
 			</div>
