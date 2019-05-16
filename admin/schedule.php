@@ -67,6 +67,9 @@ include("../includes/db.php");
         <li class="nav-item">
             <a class="nav-link" href="user.php?tourID=<?php echo $tourID?>">User</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="result.php?tourID=<?php echo $tourID?>">Results</a>
+        </li>
     </ul>
     <div class="row mb-2">
         <div class="col">
@@ -84,8 +87,8 @@ include("../includes/db.php");
                 <th scope="col">#</th>
                 <th scope="col">Date</th>
                 <th scope="col">Time</th>
-                <th scope="col">Home</th>
-                <th scope="col">Away</th>
+                <th scope="col">Team 1</th>
+                <th scope="col">Team 2</th>
                 <th scope="col">Game Type</th>
                 <th scope="col">Action</th>
             </tr>
@@ -104,6 +107,8 @@ include("../includes/db.php");
                     $res = mysqli_query($conn, $sql);
                     $data[] = mysqli_fetch_assoc($res);
                     $data[] = mysqli_fetch_assoc($res);
+
+                    
 
                     echo '<tr>
                             <th scope="row">'.$count++.'</th>

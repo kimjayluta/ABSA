@@ -67,6 +67,9 @@ include("../includes/db.php");
         <li class="nav-item">
             <a class="nav-link" href="user.php?tourID=<?php echo $tourID?>">User</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="result.php?tourID=<?php echo $tourID?>">Results</a>
+        </li>
     </ul>
 
     <div class="row mb-2">
@@ -121,10 +124,10 @@ include("../includes/db.php");
         </thead>
         <tbody>
              <?php
-                $sql = "SELECT * FROM teams";
+                $sql = "SELECT * FROM teams WHERE tour_id = $tourID ";
                 $result = mysqli_query($conn, $sql);
                 $count = 1;
-                while ($row = mysqli_fetch_array($result)){
+                while ($row = mysqli_fetch_array($result) ){
                     echo '<tr>
                             <th scope="row">'.$count++.'</th>
                             <td>'.$row["name"].'</td>

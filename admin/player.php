@@ -68,6 +68,9 @@
         <li class="nav-item">
             <a class="nav-link" href="user.php?tourID=<?php echo $tourID?>">User</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="result.php?tourID=<?php echo $tourID?>">Results</a>
+        </li>
     </ul>
 
     <div class="row mb-2">
@@ -93,7 +96,7 @@
         </thead>
         <tbody>
              <?php
-                $sql = "SELECT * FROM players";
+                $sql = "SELECT * FROM players WHERE tour_id = $tourID AND team_id = $teamID";
                 $result = mysqli_query($conn, $sql);
                 $count = 1;
                 while ($row = mysqli_fetch_array($result)){
@@ -143,7 +146,7 @@
                 <form action="functions/player_function.php" method="post">
                     <input type="hidden" name="tourID" value="<?php echo $tourID?>">
                     <input type="hidden" name="playerID" id="player-id">
-                    <input type="hidden" name="teamID" id="team-id">
+                    <input type="hidden" name="teamID" value="<?php echo $teamID?>">
                     <div class="form-group">
                         <label for="first_name">First Name</label>
                         <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Enter First Name">

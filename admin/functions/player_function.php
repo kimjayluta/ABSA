@@ -12,7 +12,10 @@ if (isset($_POST["add"])) {
 	$team_id = $_POST["teamID"];
 	$tour_id = $_POST["tourID"];
 
+
+
 	$sql = "INSERT INTO `players`(`first_name`, `last_name`, `position`, `jersey_num`, `height`, `weight`, `team_id`, `tour_id`) VALUES ('$first_name', '$last_name', '$position', '$jersey_number', '$height', '$weight', '$team_id', '$tour_id');";
+
 	$result = mysqli_query($conn,$sql);
 
 	if ($result == true) {

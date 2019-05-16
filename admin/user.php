@@ -67,6 +67,9 @@
         <li class="nav-item">
             <a class="nav-link active" href="user.php?tourID=<?php echo $tourID?>">User</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="result.php?tourID=<?php echo $tourID?>">Results</a>
+        </li>
     </ul>
 
     <div class="row mb-2">
@@ -91,7 +94,7 @@
         </thead>
         <tbody>
              <?php
-                $sql = "SELECT * FROM user";
+                $sql = "SELECT * FROM user WHERE tour_id = $tourID";
                 $result = mysqli_query($conn, $sql);
                 $count = 1;
                 while ($row = mysqli_fetch_array($result)){
@@ -164,8 +167,8 @@
                         <select name="user_type" class="form-control" id="user-type">
                             <option value="0">Home Main</option>
                             <option value="1">Away Main</option>
-                            <option value="2">Home Extra</option>
-                            <option value="3">Away Extra</option>
+<!--                             <option value="2">Home Extra</option>
+                            <option value="3">Away Extra</option> -->
                         </select>
                     </div>
                     <div class="form-group">
