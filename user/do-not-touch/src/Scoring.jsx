@@ -19,56 +19,12 @@ class Scoring extends Component {
 		this.state = {
 			orgPlayers: players,
 			players: players,
-			data1: {
-				good1: 0, bad1: 0,
-				good2: 0, bad2: 0,
-				good3: 0, bad3: 0,
-				assist: 0,
-				defRebound: 0, offRebound: 0,
-				steal: 0,
-				foul: 0,
-				block: 0
-			},
-			data2: {
-				good1: 0, bad1: 0,
-				good2: 0, bad2: 0,
-				good3: 0, bad3: 0,
-				assist: 0,
-				defRebound: 0, offRebound: 0,
-				steal: 0,
-				foul: 0,
-				block: 0
-			},
-			data3: {
-				good1: 0, bad1: 0,
-				good2: 0, bad2: 0,
-				good3: 0, bad3: 0,
-				assist: 0,
-				defRebound: 0, offRebound: 0,
-				steal: 0,
-				foul: 0,
-				block: 0
-			},
-			data4: {
-				good1: 0, bad1: 0,
-				good2: 0, bad2: 0,
-				good3: 0, bad3: 0,
-				assist: 0,
-				defRebound: 0, offRebound: 0,
-				steal: 0,
-				foul: 0,
-				block: 0
-			},
-			data5: {
-				good1: 0, bad1: 0,
-				good2: 0, bad2: 0,
-				good3: 0, bad3: 0,
-				assist: 0,
-				defRebound: 0, offRebound: 0,
-				steal: 0,
-				foul: 0,
-				block: 0
-			},
+			playerData: {},
+			data1: { name: "Player", targetId: null },
+			data2: { name: "Player", targetId: null },
+			data3: { name: "Player", targetId: null },
+			data4: { name: "Player", targetId: null },
+			data5: { name: "Player", targetId: null },
 			totalPoints: 0
 		};
 
@@ -82,40 +38,74 @@ class Scoring extends Component {
 	}
 
 	tableRowReadOnly(count){
+		const targetId = this.state[count].targetId;
+
+		const playerData = (typeof this.state.playerData[targetId] !== "undefined") ?
+			this.state.playerData[targetId] : {
+				good1: "X", bad1: "X",
+				good2: "X", bad2: "X",
+				good3: "X", bad3: "X",
+				assist: "X",
+				defRebound: "X", offRebound: "X",
+				steal: "X",
+				foul: "X",
+				block: "X",
+				turnOver: "X"
+			};
+
+		const {good1, good2, good3, bad1, bad2, bad3, assist, defRebound, offRebound, steal,foul,block, turnOver} = playerData;
+
 		return (
-			<Table.Row key={count}>
-				<Table.Cell> Player </Table.Cell>
+			<Table.Row key={count} textAlign='center'>
+				<Table.Cell textAlign='left'>{this.state[count].name}</Table.Cell>
 				{/* 1 */}
-				<Table.Cell collapsing>{this.state[count].good1}</Table.Cell>
-				<Table.Cell collapsing>{this.state[count].bad1}</Table.Cell>
+				<Table.Cell collapsing>{good1}</Table.Cell>
+				<Table.Cell collapsing>{bad1}</Table.Cell>
 
 				{/* 2 */}
-				<Table.Cell collapsing>{this.state[count].good2}</Table.Cell>
-				<Table.Cell collapsing>{this.state[count].bad2}</Table.Cell>
+				<Table.Cell collapsing>{good2}</Table.Cell>
+				<Table.Cell collapsing>{bad2}</Table.Cell>
 
 				{/* 3 */}
-				<Table.Cell collapsing>{this.state[count].good3}</Table.Cell>
-				<Table.Cell collapsing>{this.state[count].bad3}</Table.Cell>
+				<Table.Cell collapsing>{good3}</Table.Cell>
+				<Table.Cell collapsing>{bad3}</Table.Cell>
 
 				{/* assist */}
-				<Table.Cell collapsing>{this.state[count].assist}</Table.Cell>
+				<Table.Cell collapsing>{assist}</Table.Cell>
 
 				{/* rebound */}
-				<Table.Cell collapsing>{this.state[count].defRebound}</Table.Cell>
-				<Table.Cell collapsing>{this.state[count].offRebound}</Table.Cell>
+				<Table.Cell collapsing>{defRebound}</Table.Cell>
+				<Table.Cell collapsing>{offRebound}</Table.Cell>
 
 				{/* steal, foul, block */}
-				<Table.Cell collapsing>{this.state[count].steal}</Table.Cell>
-				<Table.Cell collapsing>{this.state[count].foul}</Table.Cell>
-				<Table.Cell collapsing>{this.state[count].block}</Table.Cell>
+				<Table.Cell collapsing>{steal}</Table.Cell>
+				<Table.Cell collapsing>{foul}</Table.Cell>
+				<Table.Cell collapsing>{block}</Table.Cell>
+				<Table.Cell collapsing>{turnOver}</Table.Cell>
 			</Table.Row>
 		)
 	}
 
 	tableRow(count){
 
-		const setValue = (row) => {
-			switch (row) {
+		const sendServerData = (data) => {
+			let formData = new FormData();
+			formData.append('data', JSON.stringify(data));
+
+			fetch(`//${window.location.hostname}/user/api/scoring.php`,
+				{
+					body: formData,
+					method: "post"
+				}).then((response) => {
+					return response.json();
+				})
+				.then((jsondata) => {
+					console.log(jsondata);
+				});
+		};
+
+		const setValue = (col) => {
+			switch (col) {
 				case "good1":
 					this.setState({
 						totalPoints: this.state.totalPoints + 1
@@ -131,12 +121,68 @@ class Scoring extends Component {
 						totalPoints: this.state.totalPoints + 3
 					});
 					break;
+				default:
+					break;
 			}
+
+			const targetId = this.state[count].targetId;
+			const totalScore = this.state.playerData[targetId][col] + 1;
+
+			sendServerData({
+				player: targetId,
+				column: col,
+				score: totalScore,
+				sid: this.props.targetSID
+			});
 
 			return this.setState({
 				[count]: {
 					...this.state[count],
-					[row]: this.state[count][row] + 1
+					[col]: this.state[count][col] + 1
+				},
+				playerData: {
+					...this.state.playerData,
+					[targetId]: {
+						...this.state.playerData[targetId],
+						[col]: totalScore
+					}
+				}
+			})
+		};
+
+		const updateName = (name) => {
+			// Change the name of the table
+			const targetId = name.value;
+
+			if (typeof this.state.playerData[targetId] === "undefined"){
+				// Set default scores for the player id
+				this.setState({
+					playerData: {
+						...this.state.playerData,
+						[targetId]: {
+							good1: 0, bad1: 0,
+							good2: 0, bad2: 0,
+							good3: 0, bad3: 0,
+							assist: 0,
+							defRebound: 0, offRebound: 0,
+							steal: 0,
+							foul: 0,
+							block: 0,
+							turnOver: 0
+						}
+					}
+				})
+			}
+
+			let NEW_NAME = name.options.filter(function (val) {
+				return val.value === name.value
+			});
+			NEW_NAME = (NEW_NAME.length) ? NEW_NAME[0].text : "Player";
+
+			return this.setState({
+				[count]: {
+					...this.state[count], name: NEW_NAME,
+					targetId: name.value === "" ? null : name.value
 				}
 			})
 		};
@@ -144,14 +190,19 @@ class Scoring extends Component {
 		return (
 			<Table.Row key={count}>
 				<Table.Cell>
-					<Dropdown placeholder='State' clearable search selection options={this.state.players} />
+					<Dropdown placeholder='State' clearable search selection
+							  options={this.state.players}
+							  onChange={(e, data) => updateName(data)}
+					/>
 				</Table.Cell>
 				<Table.Cell collapsing>
 					<div>
 						<Button color={"green"} attached='left' size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("good1")}
 						>1</Button>
 						<Button color={"red"} attached='right' size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("bad1")}
 						>1</Button>
 					</div>
@@ -159,9 +210,11 @@ class Scoring extends Component {
 				<Table.Cell collapsing>
 					<div>
 						<Button color={"green"} attached='left' size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("good2")}
 						>2</Button>
 						<Button color={"red"} attached='right' size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("bad2")}
 						>2</Button>
 					</div>
@@ -169,42 +222,56 @@ class Scoring extends Component {
 				<Table.Cell collapsing>
 					<div>
 						<Button color={"green"} attached='left' size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("good3")}
 						>3</Button>
 						<Button color={"red"} attached='right' size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("bad3")}
 						>3</Button>
 					</div>
 				</Table.Cell>
 				<Table.Cell collapsing>
 					<Button color={"green"} size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("assist")}
 					>Assist</Button>
 				</Table.Cell>
 				<Table.Cell collapsing>
 					<div>
 						<Button color={"grey"} attached='left' size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("defRebound")}
 						>Defensive</Button>
 						<Button color={"grey"} attached='right' size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("offRebound")}
 						>Offensive</Button>
 					</div>
 				</Table.Cell>
 				<Table.Cell collapsing>
 					<Button color={"grey"} size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("steal")}
 					>Steal</Button>
 				</Table.Cell>
 				<Table.Cell collapsing>
 					<Button color={"grey"} size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("foul")}
 					>Foul</Button>
 				</Table.Cell>
 				<Table.Cell collapsing>
 					<Button color={"grey"} size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("block")}
 					>Block</Button>
+				</Table.Cell>
+				<Table.Cell collapsing>
+					<Button color={"grey"} size={"tiny"}
+								disabled={this.state[count].targetId === null}
+								onClick={() => setValue("turnOver")}
+					>Turn Over</Button>
 				</Table.Cell>
 			</Table.Row>
 		)
@@ -227,6 +294,7 @@ class Scoring extends Component {
 							<Table.HeaderCell>Steal</Table.HeaderCell>
 							<Table.HeaderCell>Foul</Table.HeaderCell>
 							<Table.HeaderCell>Block</Table.HeaderCell>
+							<Table.HeaderCell>Turn Over</Table.HeaderCell>
 						</Table.Row>
 					</Table.Header>
 					<Table.Body>
@@ -249,6 +317,7 @@ class Scoring extends Component {
 							<Table.HeaderCell colSpan={1}>Steal</Table.HeaderCell>
 							<Table.HeaderCell colSpan={1}>Foul</Table.HeaderCell>
 							<Table.HeaderCell colSpan={1}>Block</Table.HeaderCell>
+							<Table.HeaderCell colSpan={1}>Turn Over</Table.HeaderCell>
 						</Table.Row>
 					</Table.Header>
 					<Table.Body>

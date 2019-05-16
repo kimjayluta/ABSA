@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {Table, Menu, Segment, Button} from 'semantic-ui-react'
+import { Menu } from 'semantic-ui-react'
 
 class NavBar extends Component {
 
 	handleItemClick(){
 		localStorage.removeItem("account");
 		localStorage.removeItem("type");
+		localStorage.removeItem("tour_id");
 
 		window.location.reload(true);
 	}

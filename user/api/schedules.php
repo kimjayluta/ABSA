@@ -3,6 +3,8 @@
 header('Access-Control-Allow-Origin: *');	
 include "../../includes/db.php";
 
+@ $tournamentID = $_GET["tour_id"];
+
 $sql = "SELECT 	s.id AS id, 
 				t1.name AS team_one,
 				t1.id AS t1_id,
@@ -12,7 +14,8 @@ $sql = "SELECT 	s.id AS id,
 		        s.time,
 		        s.game_type
 		 FROM `schedule` s LEFT JOIN `teams` t1 ON (t1.id = s.teamone_id ) 
-			LEFT JOIN `teams` t2 ON (t2.id = s.teamtwo_id )";
+			LEFT JOIN `teams` t2 ON (t2.id = s.teamtwo_id )
+		WHERE s.tour_id='$tournamentID'";
 
 $result = mysqli_query($conn, $sql);
 

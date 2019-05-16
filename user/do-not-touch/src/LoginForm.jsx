@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import { Button, Form, Grid, Image, Message, Segment } from 'semantic-ui-react'
 import ScheduleList from "./ScheduleList";
-
 
 class LoginForm extends Component {
 	constructor(props) {
@@ -26,18 +25,20 @@ class LoginForm extends Component {
 		fetch(`//${window.location.hostname}/user/api/login.php`,
 			{
 				body: formData,
-				method: "post"
+				method: "POST"
 			}).then(response => response.json())
 			.then((jsondata) => {
 				if (jsondata.status === "found"){
 					localStorage.setItem("account", JSON.stringify({username, password}));
 					localStorage.setItem("type", jsondata.user_type);
+					localStorage.setItem("tour_id", jsondata.tour_id);
 
 					this.setState({logged: true})
 				}else{
 					this.setState({invalidPass: true});
 					localStorage.removeItem("account");
 					localStorage.removeItem("type");
+					localStorage.removeItem("tour_id");
 				}
 			});
 	}
@@ -61,7 +62,7 @@ class LoginForm extends Component {
 		}
 
 		if (this.state.logged === true){
-			return <ScheduleList />
+			return <ScheduleList tourID={localStorage.getItem("tour_id")} />
 		}
 
 		return (

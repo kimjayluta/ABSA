@@ -10,7 +10,7 @@ class Attendance extends Component {
 			isLoading: true,
 			isFinalizing: false,
 			playerList: [],
-			checkList: [],
+			checkList: {},
 			isReadyToScore: false
 		};
 
@@ -69,7 +69,7 @@ class Attendance extends Component {
 	render() {
 		// Load the Scoring UI
 		if (this.state.isReadyToScore){
-			return <Scoring data={this.state.checkList} />
+			return <Scoring data={this.state.checkList} targetSID={this.props.match.params.sid} />
 		}
 
 		let rowData = (
@@ -133,7 +133,9 @@ class Attendance extends Component {
 
 					{this.state.isFinalizing ?
 						<Button loading className={"right floated"}>Loading</Button>:
-						<button className="ui green button right floated" onClick={this.handleFinalize}>Finalize</button>
+						<button className="ui green button right floated" onClick={this.handleFinalize}
+								disabled={Object.keys(this.state.checkList).length < 5}
+						>Finalize</button>
 					}
 				</div>
 			</>
