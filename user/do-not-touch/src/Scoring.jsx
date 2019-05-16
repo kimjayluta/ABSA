@@ -49,10 +49,11 @@ class Scoring extends Component {
 				defRebound: "X", offRebound: "X",
 				steal: "X",
 				foul: "X",
-				block: "X"
+				block: "X",
+				turnOver: "X"
 			};
 
-		const {good1, good2, good3, bad1, bad2, bad3, assist, defRebound, offRebound, steal,foul,block} = playerData;
+		const {good1, good2, good3, bad1, bad2, bad3, assist, defRebound, offRebound, steal,foul,block, turnOver} = playerData;
 
 		return (
 			<Table.Row key={count} textAlign='center'>
@@ -80,6 +81,7 @@ class Scoring extends Component {
 				<Table.Cell collapsing>{steal}</Table.Cell>
 				<Table.Cell collapsing>{foul}</Table.Cell>
 				<Table.Cell collapsing>{block}</Table.Cell>
+				<Table.Cell collapsing>{turnOver}</Table.Cell>
 			</Table.Row>
 		)
 	}
@@ -165,7 +167,8 @@ class Scoring extends Component {
 							defRebound: 0, offRebound: 0,
 							steal: 0,
 							foul: 0,
-							block: 0
+							block: 0,
+							turnOver: 0
 						}
 					}
 				})
@@ -264,6 +267,12 @@ class Scoring extends Component {
 								onClick={() => setValue("block")}
 					>Block</Button>
 				</Table.Cell>
+				<Table.Cell collapsing>
+					<Button color={"grey"} size={"tiny"}
+								disabled={this.state[count].targetId === null}
+								onClick={() => setValue("turnOver")}
+					>Turn Over</Button>
+				</Table.Cell>
 			</Table.Row>
 		)
 	}
@@ -285,6 +294,7 @@ class Scoring extends Component {
 							<Table.HeaderCell>Steal</Table.HeaderCell>
 							<Table.HeaderCell>Foul</Table.HeaderCell>
 							<Table.HeaderCell>Block</Table.HeaderCell>
+							<Table.HeaderCell>Turn Over</Table.HeaderCell>
 						</Table.Row>
 					</Table.Header>
 					<Table.Body>
@@ -307,6 +317,7 @@ class Scoring extends Component {
 							<Table.HeaderCell colSpan={1}>Steal</Table.HeaderCell>
 							<Table.HeaderCell colSpan={1}>Foul</Table.HeaderCell>
 							<Table.HeaderCell colSpan={1}>Block</Table.HeaderCell>
+							<Table.HeaderCell colSpan={1}>Turn Over</Table.HeaderCell>
 						</Table.Row>
 					</Table.Header>
 					<Table.Body>

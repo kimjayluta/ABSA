@@ -18,7 +18,8 @@ $tableMap = array(
 	'offRebound' => "o_rebound", 
 	'steal' => "steals", 
 	'foul' => "foul", 
-	'block' => "blocks", 
+	'block' => "blocks",
+	'turnOver' => "turn_over", 
 );
 
 @ $targetCol = $tableMap[$data["column"]];
