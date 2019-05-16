@@ -19,7 +19,10 @@ class Scoring extends Component {
 		this.state = {
 			orgPlayers: players,
 			players: players,
+			playerData: {},
 			data1: {
+				name: "Player",
+				targetId: null,
 				good1: 0, bad1: 0,
 				good2: 0, bad2: 0,
 				good3: 0, bad3: 0,
@@ -30,6 +33,8 @@ class Scoring extends Component {
 				block: 0
 			},
 			data2: {
+				name: "Player",
+				targetId: null,
 				good1: 0, bad1: 0,
 				good2: 0, bad2: 0,
 				good3: 0, bad3: 0,
@@ -39,7 +44,9 @@ class Scoring extends Component {
 				foul: 0,
 				block: 0
 			},
-			data3: {
+			data3:{
+				name: "Player",
+				targetId: null,
 				good1: 0, bad1: 0,
 				good2: 0, bad2: 0,
 				good3: 0, bad3: 0,
@@ -50,6 +57,8 @@ class Scoring extends Component {
 				block: 0
 			},
 			data4: {
+				name: "Player",
+				targetId: null,
 				good1: 0, bad1: 0,
 				good2: 0, bad2: 0,
 				good3: 0, bad3: 0,
@@ -60,6 +69,8 @@ class Scoring extends Component {
 				block: 0
 			},
 			data5: {
+				name: "Player",
+				targetId: null,
 				good1: 0, bad1: 0,
 				good2: 0, bad2: 0,
 				good3: 0, bad3: 0,
@@ -84,7 +95,7 @@ class Scoring extends Component {
 	tableRowReadOnly(count){
 		return (
 			<Table.Row key={count}>
-				<Table.Cell> Player </Table.Cell>
+				<Table.Cell>{this.state[count].name}</Table.Cell>
 				{/* 1 */}
 				<Table.Cell collapsing>{this.state[count].good1}</Table.Cell>
 				<Table.Cell collapsing>{this.state[count].bad1}</Table.Cell>
@@ -114,8 +125,8 @@ class Scoring extends Component {
 
 	tableRow(count){
 
-		const setValue = (row) => {
-			switch (row) {
+		const setValue = (col) => {
+			switch (col) {
 				case "good1":
 					this.setState({
 						totalPoints: this.state.totalPoints + 1
@@ -138,7 +149,19 @@ class Scoring extends Component {
 			return this.setState({
 				[count]: {
 					...this.state[count],
-					[row]: this.state[count][row] + 1
+					[col]: this.state[count][col] + 1
+				}
+			})
+		};
+
+		const updateName = (name) => {
+			// TODO: Fetch the current saved scores
+
+			// TODO: Change the name of the table
+			return this.setState({
+				[count]: {
+					...this.state[count], name: name.options[0].text,
+					targetId: name.value === "" ? null : name.value
 				}
 			})
 		};
@@ -146,14 +169,19 @@ class Scoring extends Component {
 		return (
 			<Table.Row key={count}>
 				<Table.Cell>
-					<Dropdown placeholder='State' clearable search selection options={this.state.players} />
+					<Dropdown placeholder='State' clearable search selection
+							  options={this.state.players}
+							  onChange={(e, data) => updateName(data)}
+					/>
 				</Table.Cell>
 				<Table.Cell collapsing>
 					<div>
 						<Button color={"green"} attached='left' size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("good1")}
 						>1</Button>
 						<Button color={"red"} attached='right' size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("bad1")}
 						>1</Button>
 					</div>
@@ -161,9 +189,11 @@ class Scoring extends Component {
 				<Table.Cell collapsing>
 					<div>
 						<Button color={"green"} attached='left' size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("good2")}
 						>2</Button>
 						<Button color={"red"} attached='right' size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("bad2")}
 						>2</Button>
 					</div>
@@ -171,40 +201,48 @@ class Scoring extends Component {
 				<Table.Cell collapsing>
 					<div>
 						<Button color={"green"} attached='left' size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("good3")}
 						>3</Button>
 						<Button color={"red"} attached='right' size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("bad3")}
 						>3</Button>
 					</div>
 				</Table.Cell>
 				<Table.Cell collapsing>
 					<Button color={"green"} size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("assist")}
 					>Assist</Button>
 				</Table.Cell>
 				<Table.Cell collapsing>
 					<div>
 						<Button color={"grey"} attached='left' size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("defRebound")}
 						>Defensive</Button>
 						<Button color={"grey"} attached='right' size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("offRebound")}
 						>Offensive</Button>
 					</div>
 				</Table.Cell>
 				<Table.Cell collapsing>
 					<Button color={"grey"} size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("steal")}
 					>Steal</Button>
 				</Table.Cell>
 				<Table.Cell collapsing>
 					<Button color={"grey"} size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("foul")}
 					>Foul</Button>
 				</Table.Cell>
 				<Table.Cell collapsing>
 					<Button color={"grey"} size={"tiny"}
+								disabled={this.state[count].targetId === null}
 								onClick={() => setValue("block")}
 					>Block</Button>
 				</Table.Cell>
