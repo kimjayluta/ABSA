@@ -131,6 +131,8 @@ class Scoring extends Component {
 						totalPoints: this.state.totalPoints + 3
 					});
 					break;
+				default:
+					break;
 			}
 
 			return this.setState({

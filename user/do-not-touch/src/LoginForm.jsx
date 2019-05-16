@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import { Button, Form, Grid, Image, Message, Segment } from 'semantic-ui-react'
 import ScheduleList from "./ScheduleList";
-
 
 class LoginForm extends Component {
 	constructor(props) {
