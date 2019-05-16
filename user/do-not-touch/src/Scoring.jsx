@@ -171,9 +171,10 @@ class Scoring extends Component {
 				})
 			}
 
-			const NEW_NAME = name.options.filter(function (val) {
+			let NEW_NAME = name.options.filter(function (val) {
 				return val.value === name.value
-			})[0].text;
+			});
+			NEW_NAME = (NEW_NAME.length) ? NEW_NAME[0].text : "Player";
 
 			return this.setState({
 				[count]: {
