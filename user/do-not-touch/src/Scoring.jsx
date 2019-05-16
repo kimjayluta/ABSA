@@ -55,8 +55,8 @@ class Scoring extends Component {
 		const {good1, good2, good3, bad1, bad2, bad3, assist, defRebound, offRebound, steal,foul,block} = playerData;
 
 		return (
-			<Table.Row key={count}>
-				<Table.Cell>{this.state[count].name}</Table.Cell>
+			<Table.Row key={count} textAlign='center'>
+				<Table.Cell textAlign='left'>{this.state[count].name}</Table.Cell>
 				{/* 1 */}
 				<Table.Cell collapsing>{good1}</Table.Cell>
 				<Table.Cell collapsing>{bad1}</Table.Cell>
