@@ -67,10 +67,17 @@
         <li class="nav-item">
             <a class="nav-link active" href="user.php?tourID=<?php echo $tourID?>">User</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="result.php?tourID=<?php echo $tourID?>">Results</a>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
+            role="button" aria-haspopup="true" aria-expanded="false">Results</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="result.php?tourID=<?php echo $tourID?>">Elimination Result</a>
+                <a class="dropdown-item" href="final_result.php?tourID=<?php echo $tourID?>">Final Result</a>
+                <a class="dropdown-item" href="best_player.php?tourID=<?php echo $tourID?>">Best Players</a>
+            </div>
         </li>
     </ul>
+
 
     <div class="row mb-2">
         <div class="col">
