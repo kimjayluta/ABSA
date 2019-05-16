@@ -88,15 +88,17 @@ class Scoring extends Component {
 
 		const sendServerData = (data) => {
 			let formData = new FormData();
-			formData.append('data', data);
+			formData.append('data', JSON.stringify(data));
 
 			fetch(`//${window.location.hostname}/user/api/scoring.php`,
 				{
 					body: formData,
 					method: "post"
-				}).then(response => response.json())
+				}).then((response) => {
+					return response.json();
+				})
 				.then((jsondata) => {
-					console.log(jsondata)
+					console.log(jsondata);
 				});
 		};
 
@@ -128,6 +130,7 @@ class Scoring extends Component {
 				player: targetId,
 				column: col,
 				score: totalScore,
+				sid: this.props.targetSID
 			});
 
 			return this.setState({
