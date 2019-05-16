@@ -87,7 +87,17 @@ class Scoring extends Component {
 	tableRow(count){
 
 		const sendServerData = (data) => {
+			let formData = new FormData();
+			formData.append('data', data);
 
+			fetch(`//${window.location.hostname}/user/api/scoring.php`,
+				{
+					body: formData,
+					method: "post"
+				}).then(response => response.json())
+				.then((jsondata) => {
+					console.log(jsondata)
+				});
 		};
 
 		const setValue = (col) => {
