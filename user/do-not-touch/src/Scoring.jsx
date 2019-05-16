@@ -86,6 +86,10 @@ class Scoring extends Component {
 
 	tableRow(count){
 
+		const sendServerData = (data) => {
+
+		};
+
 		const setValue = (col) => {
 			switch (col) {
 				case "good1":
@@ -108,6 +112,13 @@ class Scoring extends Component {
 			}
 
 			const targetId = this.state[count].targetId;
+			const totalScore = this.state.playerData[targetId][col] + 1;
+
+			sendServerData({
+				player: targetId,
+				column: col,
+				score: totalScore,
+			});
 
 			return this.setState({
 				[count]: {
@@ -118,7 +129,7 @@ class Scoring extends Component {
 					...this.state.playerData,
 					[targetId]: {
 						...this.state.playerData[targetId],
-						[col]: this.state.playerData[targetId][col] + 1
+						[col]: totalScore
 					}
 				}
 			})
