@@ -24,7 +24,12 @@ if (mysqli_num_rows($result) > 0) {
 		$_SESSION["usn"] = $usn;
 		$_SESSION["user_type"] = $row["user_type"];
 
-		echo json_encode(array("status" => "found", "user_type" => $row["user_type"]));
+		echo json_encode(
+			array(
+				"status" => "found",
+				"user_type" => $row["user_type"]),
+				"tour_id" => $row["tour_id"]
+			);
 		exit;
 
 	}

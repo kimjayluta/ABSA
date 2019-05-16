@@ -31,12 +31,14 @@ class LoginForm extends Component {
 				if (jsondata.status === "found"){
 					localStorage.setItem("account", JSON.stringify({username, password}));
 					localStorage.setItem("type", jsondata.user_type);
+					localStorage.setItem("tour_id", jsondata.tour_id);
 
 					this.setState({logged: true})
 				}else{
 					this.setState({invalidPass: true});
 					localStorage.removeItem("account");
 					localStorage.removeItem("type");
+					localStorage.removeItem("tour_id");
 				}
 			});
 	}
