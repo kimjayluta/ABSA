@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 15, 2019 at 04:38 PM
+-- Generation Time: May 16, 2019 at 10:50 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.0.21
 
@@ -52,6 +52,22 @@ CREATE TABLE `attendance` (
   `player_id` int(255) NOT NULL,
   `sched_id` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `attendance`
+--
+
+INSERT INTO `attendance` (`id`, `player_id`, `sched_id`) VALUES
+(181, 4, 9),
+(182, 5, 9),
+(183, 6, 9),
+(262, 6, 10),
+(178, 7, 9),
+(253, 7, 10),
+(179, 8, 9),
+(254, 8, 10),
+(180, 9, 9),
+(255, 9, 10);
 
 -- --------------------------------------------------------
 
@@ -129,10 +145,15 @@ CREATE TABLE `score_info` (
   `d_rebound` int(255) NOT NULL,
   `foul` int(11) NOT NULL,
   `turn_over` int(255) NOT NULL,
-  `scorer_id` int(11) NOT NULL,
-  `sched_id` int(11) NOT NULL,
-  `tour_id` int(11) NOT NULL
+  `sched_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `score_info`
+--
+
+INSERT INTO `score_info` (`id`, `player_id`, `free_throw`, `free_throw_missed`, `two_points`, `two_points_missed`, `three_points`, `three_points_missed`, `blocks`, `steals`, `assist`, `o_rebound`, `d_rebound`, `foul`, `turn_over`, `sched_id`) VALUES
+(31, 8, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10);
 
 -- --------------------------------------------------------
 
@@ -240,10 +261,9 @@ ALTER TABLE `schedule`
 --
 ALTER TABLE `score_info`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `scorer_id` (`scorer_id`),
+  ADD UNIQUE KEY `sched_id_3` (`sched_id`,`player_id`),
   ADD KEY `sched_id` (`sched_id`),
-  ADD KEY `player_id` (`player_id`),
-  ADD KEY `tour_id` (`tour_id`);
+  ADD KEY `player_id` (`player_id`);
 
 --
 -- Indexes for table `teams`
@@ -279,7 +299,7 @@ ALTER TABLE `account`
 -- AUTO_INCREMENT for table `attendance`
 --
 ALTER TABLE `attendance`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=178;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=266;
 --
 -- AUTO_INCREMENT for table `players`
 --
@@ -294,7 +314,7 @@ ALTER TABLE `schedule`
 -- AUTO_INCREMENT for table `score_info`
 --
 ALTER TABLE `score_info`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT for table `teams`
 --
@@ -340,8 +360,6 @@ ALTER TABLE `schedule`
 -- Constraints for table `score_info`
 --
 ALTER TABLE `score_info`
-  ADD CONSTRAINT `score_info_ibfk_1` FOREIGN KEY (`tour_id`) REFERENCES `tournament` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `score_info_ibfk_2` FOREIGN KEY (`scorer_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `score_info_ibfk_3` FOREIGN KEY (`sched_id`) REFERENCES `schedule` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `score_info_ibfk_4` FOREIGN KEY (`player_id`) REFERENCES `players` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
