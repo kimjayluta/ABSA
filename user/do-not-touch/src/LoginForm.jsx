@@ -25,7 +25,7 @@ class LoginForm extends Component {
 		fetch(`//${window.location.hostname}/user/api/login.php`,
 			{
 				body: formData,
-				method: "post"
+				method: "POST"
 			}).then(response => response.json())
 			.then((jsondata) => {
 				if (jsondata.status === "found"){
@@ -62,7 +62,7 @@ class LoginForm extends Component {
 		}
 
 		if (this.state.logged === true){
-			return <ScheduleList />
+			return <ScheduleList tourID={localStorage.getItem("tour_id")} />
 		}
 
 		return (

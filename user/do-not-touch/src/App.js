@@ -8,10 +8,16 @@ import {HashRouter, Route} from 'react-router-dom'
 
 
 function App() {
-  return (
+	if (!localStorage.getItem("account") || !localStorage.getItem("type") || !localStorage.getItem("tour_id")){
+		localStorage.removeItem("account");
+		localStorage.removeItem("type");
+		localStorage.removeItem("tour_id");
+	}
+
+	return (
   	<HashRouter>
 		<Route exact path={"/"} component={() =>
-			localStorage.getItem("account") ? <ScheduleList /> : <LoginForm />
+			localStorage.getItem("account") ? <ScheduleList tourID={localStorage.getItem("tour_id")} /> : <LoginForm />
 		} />
 		<Route exact path={"/schedule/:sid/:tid"} component={Attendance} />
 	</HashRouter>

@@ -11,7 +11,7 @@ class ScheduleList extends Component {
 	};
 
 	componentDidMount() {
-		fetch(`//${window.location.hostname}/user/api/schedules.php`,
+		fetch(`//${window.location.hostname}/user/api/schedules.php?tour_id=${this.props.tourID}`,
 			{
 				// body: formData,
 				method: "get"
