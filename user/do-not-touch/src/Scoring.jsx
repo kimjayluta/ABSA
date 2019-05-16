@@ -20,66 +20,11 @@ class Scoring extends Component {
 			orgPlayers: players,
 			players: players,
 			playerData: {},
-			data1: {
-				name: "Player",
-				targetId: null,
-				good1: 0, bad1: 0,
-				good2: 0, bad2: 0,
-				good3: 0, bad3: 0,
-				assist: 0,
-				defRebound: 0, offRebound: 0,
-				steal: 0,
-				foul: 0,
-				block: 0
-			},
-			data2: {
-				name: "Player",
-				targetId: null,
-				good1: 0, bad1: 0,
-				good2: 0, bad2: 0,
-				good3: 0, bad3: 0,
-				assist: 0,
-				defRebound: 0, offRebound: 0,
-				steal: 0,
-				foul: 0,
-				block: 0
-			},
-			data3:{
-				name: "Player",
-				targetId: null,
-				good1: 0, bad1: 0,
-				good2: 0, bad2: 0,
-				good3: 0, bad3: 0,
-				assist: 0,
-				defRebound: 0, offRebound: 0,
-				steal: 0,
-				foul: 0,
-				block: 0
-			},
-			data4: {
-				name: "Player",
-				targetId: null,
-				good1: 0, bad1: 0,
-				good2: 0, bad2: 0,
-				good3: 0, bad3: 0,
-				assist: 0,
-				defRebound: 0, offRebound: 0,
-				steal: 0,
-				foul: 0,
-				block: 0
-			},
-			data5: {
-				name: "Player",
-				targetId: null,
-				good1: 0, bad1: 0,
-				good2: 0, bad2: 0,
-				good3: 0, bad3: 0,
-				assist: 0,
-				defRebound: 0, offRebound: 0,
-				steal: 0,
-				foul: 0,
-				block: 0
-			},
+			data1: { name: "Player", targetId: null },
+			data2: { name: "Player", targetId: null },
+			data3: { name: "Player", targetId: null },
+			data4: { name: "Player", targetId: null },
+			data5: { name: "Player", targetId: null },
 			totalPoints: 0
 		};
 
@@ -93,32 +38,48 @@ class Scoring extends Component {
 	}
 
 	tableRowReadOnly(count){
+		const targetId = this.state[count].targetId;
+
+		const playerData = (typeof this.state.playerData[targetId] !== "undefined") ?
+			this.state.playerData[targetId] : {
+				good1: "X", bad1: "X",
+				good2: "X", bad2: "X",
+				good3: "X", bad3: "X",
+				assist: "X",
+				defRebound: "X", offRebound: "X",
+				steal: "X",
+				foul: "X",
+				block: "X"
+			};
+
+		const {good1, good2, good3, bad1, bad2, bad3, assist, defRebound, offRebound, steal,foul,block} = playerData;
+
 		return (
 			<Table.Row key={count}>
 				<Table.Cell>{this.state[count].name}</Table.Cell>
 				{/* 1 */}
-				<Table.Cell collapsing>{this.state[count].good1}</Table.Cell>
-				<Table.Cell collapsing>{this.state[count].bad1}</Table.Cell>
+				<Table.Cell collapsing>{good1}</Table.Cell>
+				<Table.Cell collapsing>{bad1}</Table.Cell>
 
 				{/* 2 */}
-				<Table.Cell collapsing>{this.state[count].good2}</Table.Cell>
-				<Table.Cell collapsing>{this.state[count].bad2}</Table.Cell>
+				<Table.Cell collapsing>{good2}</Table.Cell>
+				<Table.Cell collapsing>{bad2}</Table.Cell>
 
 				{/* 3 */}
-				<Table.Cell collapsing>{this.state[count].good3}</Table.Cell>
-				<Table.Cell collapsing>{this.state[count].bad3}</Table.Cell>
+				<Table.Cell collapsing>{good3}</Table.Cell>
+				<Table.Cell collapsing>{bad3}</Table.Cell>
 
 				{/* assist */}
-				<Table.Cell collapsing>{this.state[count].assist}</Table.Cell>
+				<Table.Cell collapsing>{assist}</Table.Cell>
 
 				{/* rebound */}
-				<Table.Cell collapsing>{this.state[count].defRebound}</Table.Cell>
-				<Table.Cell collapsing>{this.state[count].offRebound}</Table.Cell>
+				<Table.Cell collapsing>{defRebound}</Table.Cell>
+				<Table.Cell collapsing>{offRebound}</Table.Cell>
 
 				{/* steal, foul, block */}
-				<Table.Cell collapsing>{this.state[count].steal}</Table.Cell>
-				<Table.Cell collapsing>{this.state[count].foul}</Table.Cell>
-				<Table.Cell collapsing>{this.state[count].block}</Table.Cell>
+				<Table.Cell collapsing>{steal}</Table.Cell>
+				<Table.Cell collapsing>{foul}</Table.Cell>
+				<Table.Cell collapsing>{block}</Table.Cell>
 			</Table.Row>
 		)
 	}
@@ -146,21 +107,53 @@ class Scoring extends Component {
 					break;
 			}
 
+			const targetId = this.state[count].targetId;
+
 			return this.setState({
 				[count]: {
 					...this.state[count],
 					[col]: this.state[count][col] + 1
+				},
+				playerData: {
+					...this.state.playerData,
+					[targetId]: {
+						...this.state.playerData[targetId],
+						[col]: this.state.playerData[targetId][col] + 1
+					}
 				}
 			})
 		};
 
 		const updateName = (name) => {
-			// TODO: Fetch the current saved scores
+			// Change the name of the table
+			const targetId = name.value;
 
-			// TODO: Change the name of the table
+			if (typeof this.state.playerData[targetId] === "undefined"){
+				// Set default scores for the player id
+				this.setState({
+					playerData: {
+						...this.state.playerData,
+						[targetId]: {
+							good1: 0, bad1: 0,
+							good2: 0, bad2: 0,
+							good3: 0, bad3: 0,
+							assist: 0,
+							defRebound: 0, offRebound: 0,
+							steal: 0,
+							foul: 0,
+							block: 0
+						}
+					}
+				})
+			}
+
+			const NEW_NAME = name.options.filter(function (val) {
+				return val.value === name.value
+			})[0].text;
+
 			return this.setState({
 				[count]: {
-					...this.state[count], name: name.options[0].text,
+					...this.state[count], name: NEW_NAME,
 					targetId: name.value === "" ? null : name.value
 				}
 			})
