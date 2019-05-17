@@ -24,14 +24,28 @@ foreach($uniqueTeamsToDisplay as $team) {
 	$sql = "
 	SELECT 
 		CONCAT(p.`first_name`, ' ', p.`last_name`) AS name, p.`position`, p.`jersey_num`, p.`team_id`,
-		((SUM(si.`free_throw`)+SUM(si.`two_points`*2)+SUM(si.`three_points`*3)) + SUM(si.`steals`) + SUM(si.`assist`) + SUM(si.`blocks`))/$gamesPerTeam[$team] as ranking_score
+		
+		((SUM(si.`free_throw`)+SUM(si.`two_points`)+SUM(si.`three_points`)) /  (SUM(si.`free_throw`)+SUM(si.`two_points`)+SUM(si.`three_points`) + SUM(si.`free_throw_missed`)+SUM(si.`two_points_missed`)+SUM(si.`three_points_missed`))) as field_goal,
+		
+		(SUM(si.`free_throw`)+SUM(si.`two_points`)+SUM(si.`three_points`)) /$gamesPerTeam[$team] as ppg,
+		
+		((SUM(si.`three_points`)) /  (SUM(si.`three_points`)+SUM(si.`three_points_missed`))) as three_fg,
+		
+		((SUM(si.`free_throw`)) /  (SUM(si.`free_throw`)+SUM(si.`free_throw_missed`))) as free_fg,
+		
+		((SUM(si.`o_rebound`)+SUM(si.`d_rebound`)) /$gamesPerTeam[$team]) as rfg,
+		((SUM(si.`o_rebound`)) /$gamesPerTeam[$team]) as orfg,
+		((SUM(si.`d_rebound`)) /$gamesPerTeam[$team]) as drfg,
+		((SUM(si.`blocks`)) /$gamesPerTeam[$team]) as bfg,
+		((SUM(si.`steals`)) /$gamesPerTeam[$team]) as sfg,
+		((SUM(si.`assist`)) /$gamesPerTeam[$team]) as afg,
+		((SUM(si.`turn_over`)) /$gamesPerTeam[$team]) as tfg
 		FROM `players` p
 	    INNER JOIN `score_info` si ON (si.`player_id` = p.`id`)
 	    
 	WHERE p.`tour_id`='$tourID' AND p.`team_id`='$team'
 	
   	GROUP BY si.`player_id`
-  	ORDER BY `ranking_score` DESC
 	";
 
 	$result = mysqli_query($conn,$sql);
@@ -131,11 +145,20 @@ foreach($uniqueTeamsToDisplay as $team) {
     <table class="table mb-5">
         <thead>
             <tr>
-                <th scope="col">Position</th>
                 <th scope="col">Name</th>
-                <th scope="col">Jersey Number</th>
+                <th scope="col">Position</th>
                 <th scope="col">Team</th>
-                <th scope="col">Ranking Score</th>
+                <th scope="col">PPG</th>  <!--Points per Game-->
+                <th scope="col">FG</th>  <!--Field Goal-->
+                <th scope="col">3PTs FG</th> <!--3pts Field Goal-->
+                <th scope="col">Free throw FG</th>
+                <th scope="col">RFG</th> <!--Rebound-->
+                <th scope="col">Off RFG</th>
+                <th scope="col">Def RFG</th>
+                <th scope="col">BPG</th> <!--block per game-->
+                <th scope="col">SPG</th> <!--steal per game-->
+                <th scope="col">APG</th> <!--assist per game-->
+                <th scope="col">To FG</th> <!--Turn over-->
             </tr>
         </thead>
         <tbody>
@@ -144,11 +167,20 @@ foreach($uniqueTeamsToDisplay as $team) {
             foreach ($allPlayersData as $row){
 				echo "
 	            <tr>
-	                <td>". $row["position"] ."</td>
 	                <td>". $row["name"] ."</td>
-	                <td>". $row["jersey_num"] ."</td>
+	                <td>". $row["position"] ."</td>
 	                <td>". $row["team_id"] ."</td>
-	                <td>". round($row["ranking_score"],2). "</td>
+	                <td>". round($row["ppg"],2). "</td>
+	                <td>". round($row["field_goal"]*100,2). "%</td>
+	                <td>". round($row["three_fg"]*100,2). "%</td>
+	                <td>". round($row["free_fg"]*100,2). "%</td>
+	                <td>". round($row["rfg"],2). "</td>
+	                <td>". round($row["orfg"],2). "</td>
+	                <td>". round($row["drfg"],2). "</td>
+	                <td>". round($row["bfg"],2). "</td>
+	                <td>". round($row["sfg"],2). "</td>
+	                <td>". round($row["afg"],2). "</td>
+	                <td>". round($row["tfg"],2). "</td>
                 </tr>
 				";
             }
