@@ -39,6 +39,7 @@ foreach($uniqueTeamsToDisplay as $team) {
 		((SUM(si.`blocks`)) /$gamesPerTeam[$team]) as bfg,
 		((SUM(si.`steals`)) /$gamesPerTeam[$team]) as sfg,
 		((SUM(si.`assist`)) /$gamesPerTeam[$team]) as afg,
+		((SUM(si.`foul`)) /$gamesPerTeam[$team]) as ffg,
 		((SUM(si.`turn_over`)) /$gamesPerTeam[$team]) as tfg
 		FROM `players` p
 	    INNER JOIN `score_info` si ON (si.`player_id` = p.`id`)
@@ -158,6 +159,7 @@ foreach($uniqueTeamsToDisplay as $team) {
                 <th scope="col">BPG</th> <!--block per game-->
                 <th scope="col">SPG</th> <!--steal per game-->
                 <th scope="col">APG</th> <!--assist per game-->
+                <th scope="col">FFG</th> <!--Fouls per game-->
                 <th scope="col">To FG</th> <!--Turn over-->
             </tr>
         </thead>
@@ -180,6 +182,7 @@ foreach($uniqueTeamsToDisplay as $team) {
 	                <td>". round($row["bfg"],2). "</td>
 	                <td>". round($row["sfg"],2). "</td>
 	                <td>". round($row["afg"],2). "</td>
+	                <td>". round($row["ffg"],2). "</td>
 	                <td>". round($row["tfg"],2). "</td>
                 </tr>
 				";
