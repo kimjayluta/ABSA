@@ -122,9 +122,10 @@ include("../includes/db.php");
               $result = array("id" => 0, "ft" => 0, "ftm" => 0, "2pts" => 0, "2ptsm" => 0, "3pts" => 0, "3ptsm" => 0, "blk" =>0, "stl" => 0, "ast" => 0, "oreb" => 0, "dreb" => 0, "foul" => 0, "to" => 0 );
 
             for($i = 1; $i<100;$i++){
-                 $sql = "SELECT * FROM score_info WHERE tour_id = '$tourID' AND player_id = '$i'";
-                 echo $sql;
-                 exit;
+//                 $sql = "SELECT * FROM score_info WHERE tour_id = '$tourID' AND player_id = '$i'";
+                 $sql = "SELECT * FROM `score_info` si  INNER JOIN `schedule` s ON(si.sched_id = s.id) WHERE s.`tour_id` = '$tourID' AND si.`player_id` = '$i'";
+//                 echo $sql;
+//                 exit;
                  $select = mysqli_query($conn,$sql);
                  if(mysqli_num_rows($select)>0) {
                     $playerctr++;
