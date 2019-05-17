@@ -59,7 +59,6 @@ foreach($uniqueTeamsToDisplay as $team) {
 	@ array_push($allPlayersData, ...$data);
 }
 ?>
-?>
 
 <!DOCTYPE html>
 <html>
