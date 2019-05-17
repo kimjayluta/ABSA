@@ -24,11 +24,14 @@ foreach($uniqueTeamsToDisplay as $team) {
 	$sql = "
 	SELECT 
 		CONCAT(p.`first_name`, ' ', p.`last_name`) AS name, p.`position`, p.`jersey_num`, p.`team_id`,
-		((si.`free_throw`+(si.`two_points`*2)+(si.`three_points`*3)) + si.`steals` + si.`assist` + si.`blocks`)/$gamesPerTeam[$team] as ranking_score
+		((SUM(si.`free_throw`)+SUM(si.`two_points`*2)+SUM(si.`three_points`*3)) + SUM(si.`steals`) + SUM(si.`assist`) + SUM(si.`blocks`))/$gamesPerTeam[$team] as ranking_score
 		FROM `players` p
 	    INNER JOIN `score_info` si ON (si.`player_id` = p.`id`)
 	    
 	WHERE p.`tour_id`='$tourID' AND p.`team_id`='$team'
+	
+  	GROUP BY si.`player_id`
+  	ORDER BY `ranking_score` DESC
 	";
 
 	$result = mysqli_query($conn,$sql);
