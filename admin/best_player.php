@@ -3,6 +3,50 @@
     $tourID = $_GET["tourID"];
 ?>
 
+<?php
+
+
+// Get all of the schedules for the final according to the current tournament
+$sql = "SELECT `teamone_id`, `teamtwo_id` FROM `schedule` WHERE `game_type`='finals' AND `tour_id`='$tourID'";
+$result = mysqli_query($conn,$sql);
+
+$teamsToDisplay = array(); // List of teams but can have duplicate values
+while ($row = mysqli_fetch_assoc($result)){
+	$data[] = $row;
+	array_push($teamsToDisplay, $row["teamone_id"]);
+	array_push($teamsToDisplay, $row["teamtwo_id"]);
+}
+
+$gamesPerTeam =  array_count_values($teamsToDisplay);
+$uniqueTeamsToDisplay = array_unique($teamsToDisplay);
+
+// Loop the teams to get the players according to the teams within the schedules
+$allPlayersData = array();
+foreach($uniqueTeamsToDisplay as $team) {
+	$sql = "
+	SELECT 
+		CONCAT(p.`first_name`, ' ', p.`last_name`) AS name, p.`position`, p.`jersey_num`, p.`team_id`,
+		((SUM(si.`free_throw`)+SUM(si.`two_points`*2)+SUM(si.`three_points`*3)) + SUM(si.`steals`) + SUM(si.`assist`) + SUM(si.`blocks`))/$gamesPerTeam[$team] as ranking_score
+		FROM `players` p
+	    INNER JOIN `score_info` si ON (si.`player_id` = p.`id`)
+	    
+	WHERE p.`tour_id`='$tourID' AND p.`team_id`='$team'
+	
+  	GROUP BY si.`player_id`
+  	ORDER BY `ranking_score` DESC
+	";
+
+	$result = mysqli_query($conn,$sql);
+
+	$data = array();
+	while ($row = mysqli_fetch_assoc($result)){
+		$data[] = $row;
+	}
+
+	@ array_push($allPlayersData, ...$data);
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
