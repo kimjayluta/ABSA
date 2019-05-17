@@ -1,6 +1,45 @@
 <?php
-    include("../includes/db.php");
-    $tourID = $_GET["tourID"];
+
+
+include("../includes/db.php");
+$tourID = $_GET["tourID"];
+
+// Get all of the schedules for the final according to the current tournament
+$sql = "SELECT `teamone_id`, `teamtwo_id` FROM `schedule` WHERE `game_type`='finals' AND `tour_id`='$tourID'";
+$result = mysqli_query($conn,$sql);
+
+$teamsToDisplay = array(); // List of teams but can have duplicate values
+while ($row = mysqli_fetch_assoc($result)){
+	$data[] = $row;
+	array_push($teamsToDisplay, $row["teamone_id"]);
+	array_push($teamsToDisplay, $row["teamtwo_id"]);
+}
+
+$gamesPerTeam =  array_count_values($teamsToDisplay);
+$uniqueTeamsToDisplay = array_unique($teamsToDisplay);
+
+// Loop the teams to get the players according to the teams within the schedules
+$allPlayersData = array();
+foreach($uniqueTeamsToDisplay as $team) {
+	$sql = "
+	SELECT 
+		CONCAT(p.`first_name`, ' ', p.`last_name`) AS name, p.`position`, p.`jersey_num`, p.`team_id`,
+		((si.`free_throw`+(si.`two_points`*2)+(si.`three_points`*3)) + si.`steals` + si.`assist` + si.`blocks`)/$gamesPerTeam[$team] as ranking_score
+		FROM `players` p
+	    INNER JOIN `score_info` si ON (si.`player_id` = p.`id`)
+	    
+	WHERE p.`tour_id`='$tourID' AND p.`team_id`='$team'
+	";
+
+	$result = mysqli_query($conn,$sql);
+
+	$data = array();
+	while ($row = mysqli_fetch_assoc($result)){
+		$data[] = $row;
+	}
+
+	@ array_push($allPlayersData, ...$data);
+}
 ?>
 
 <!DOCTYPE html>
@@ -97,12 +136,21 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-            </tr>
+
+            <?php
+            foreach ($allPlayersData as $row){
+				echo "
+	            <tr>
+	                <td>". $row["position"] ."</td>
+	                <td>". $row["name"] ."</td>
+	                <td>". $row["jersey_num"] ."</td>
+	                <td>". $row["team_id"] ."</td>
+	                <td>". round($row["ranking_score"],2). "</td>
+                </tr>
+				";
+            }
+            ?>
+
         </tbody>
     </table>
 </div>
